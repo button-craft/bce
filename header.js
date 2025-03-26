@@ -104,3 +104,18 @@ function handleLogout() {
     localStorage.removeItem('currentUser');
     window.location.href = 'index.html';
 }
+
+.topnav {
+  padding: 0 20px;
+}
+
+.topnav a {
+  padding: 14px 18px;
+}
+
+@media (max-width: 800px) {
+  .topnav a {
+    padding: 14px 12px;
+    font-size: 14px;
+  }
+}
