@@ -145,3 +145,26 @@ h3 {
   background-color: blue;
 }
 
+/* ----- Card Stealer ----- */
+.stealDescription {
+  text-align: center;
+  color: darkblue;
+  margin-bottom: 20px;
+}
+
+.stealSelect {
+  padding: 8px;
+  border-radius: 5px;
+  border: 2px solid darkblue;
+  margin-right: 10px;
+}
+
+.stealButton {
+  margin-bottom: 20px;
+}
+
+#stealList li img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+  cursor: pointer;
+}
