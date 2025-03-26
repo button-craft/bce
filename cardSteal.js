@@ -8,13 +8,15 @@ let targetUser = '';
 
 // Load the selected user's cards
 async function loadCards() {
+  // Get all card elements that exist in the DOM
+  const cardElements = document.querySelectorAll('[class^="c"]');
+  
   // Clear any previously displayed cards
-  for (let i = 0; i < 200; i++) {
-    let cardResult = document.querySelector(".c" + i);
-    cardResult.src = "Pack.png";
-    cardResult.style.width = "0px";
-    cardResult.style.border = "0";
-  }
+  cardElements.forEach(cardElement => {
+    cardElement.src = "Pack.png";
+    cardElement.style.width = "0px";
+    cardElement.style.border = "0";
+  });
 
   // Get the selected user
   targetUser = document.querySelector(".stealSelect").value;
@@ -39,14 +41,15 @@ async function loadCards() {
   const doc = userQuery.docs[0];
   let userCards = doc.data().cards.sort();
   
-  // Display the cards
-  let num = 0;
-  for (let i = 0; i < userCards.length; i++) {
-    let cardResult = document.querySelector(".c" + num);
-    cardResult.src = "img/" + userCards[i] + ".png";
-    cardResult.style.width = "110px";
-    cardResult.dataset.cardId = userCards[i]; // Store the card ID for stealing
-    num++;
+  // Display the cards (only up to the number of card elements we have)
+  const maxCards = Math.min(userCards.length, cardElements.length);
+  for (let i = 0; i < maxCards; i++) {
+    let cardResult = document.querySelector(".c" + i);
+    if (cardResult) {
+      cardResult.src = "img/" + userCards[i] + ".png";
+      cardResult.style.width = "110px";
+      cardResult.dataset.cardId = userCards[i]; // Store the card ID for stealing
+    }
   }
 }
 
