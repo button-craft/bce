@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>ButtonCraft Cards ONLINE!</title>
+  <link href="styleCollect.css" rel="stylesheet" type="text/css" />
+  <link rel="icon" type="image/png" href="BCC_Icon.png">
+</head>
+
+<body oncontextmenu="return false;">
+
+  <div class=logoBack><a class=logoLink href="index.html"><img class=logo src="BCC_Logo.png"></img></a></div>
+  <div class=line></div>
+
+  <div class="topnav">
+    <a href="collectAll.html">All Cards</a>
+    <a href="collectSets.html">Sets Checklist</a>
+    <a href="collectCompare.html">Compare</a>
+    <a href="collectTrade.html">Trading</a>
+    <a class="active" href="collectMission.html">Mission</a>
+    <a href="collectGem.html">DCGem</a>
+    <a href="collectDC.html">DCMetro</a>
+    <a href="collectJig.html">Jig</a>
+    <a href="collectPeach.html">Peach</a>
+    <a href="collectVoid.html">VoidMax</a>
+    <a href="collectZav.html">Zaveeya</a>
+  </div>
+
+  <div class=line></div>
+
+  <img class=pack src="Pack.png" onClick="hide()"></img>
+  <h3 class=owned></h3>
+
+  <h2 class=resultTitle>Current Variant Mission:</h2>
+
+  <div class=aboutMission>Be the first to own these 4 cards to get the variant card below!</div>
+  <img class=card0 src="Pack.png" onClick="enlarge('card0')"></img>
+  <img class=card1 src="Pack.png" onClick="enlarge('card1')"></img>
+  <img class=card2 src="Pack.png" onClick="enlarge('card2')"></img>
+  <img class=card3 src="Pack.png" onClick="enlarge('card3')"></img>
+  <div class=aboutMission>Reward:</div>
+  <img class=missionReward src="Pack.png" onClick="enlarge('missionReward')"></img>
+
+
+  
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCLjx4Ys4qnzMfRog74NExTUHdZism8u-I",
+      authDomain: "buttoncards.firebaseapp.com",
+      databaseURL: "https://buttoncards-default-rtdb.firebaseio.com",
+      projectId: "buttoncards",
+      storageBucket: "buttoncards.firebasestorage.app",
+      messagingSenderId: "1001795754069",
+      appId: "1:1001795754069:web:1cbf4305a68f9b45eb5cdc",
+      measurementId: "G-F56PTH5YNL"
+    };
+  
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+  </script>
+  <script src="scriptCollect.js"></script>
+</body>
+
+</html>

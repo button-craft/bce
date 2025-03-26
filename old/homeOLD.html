@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>ButtonCraft Cards ONLINE!</title>
+  <link href="styleHomeOLD.css" rel="stylesheet" type="text/css" />
+  <link rel="icon" type="image/png" href="BCC_Icon.png">
+</head>
+
+<body>
+
+  <script>
+        if (localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'index.html';
+        }
+  </script>
+  
+  <div class=logoBack><a class=logoLink href="collections.html"><img class=logo src="BCC_Logo.png"></img></a></div>
+  <div class=line></div>
+
+  <h1 class="codeTitle">Enter Pack Code Here:</h1>
+  <p><strong>Username:</strong> <span id="menuUsername"></span></p>
+  <button id="enter" name="enter" onclick="showPack()">Open Pack</button>
+  <img class=pack src="Pack.png" onclick="openPack()"></img>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button" onclick="handleLogout()">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+  <button class="logout-button">Logout</button>
+
+  <h2 class=resultTitle><u>Pack Results!</u></h2>
+  <h3 class=cardsList>Cards: </h3>
+  <h3 class=UPID>UPID: </h3>
+  <h3 class=PCode>Pack Code: </h3>
+  <ul class=resultList>
+    <li><img class=i0 src="Pack.png" onClick="enlargePack('i0')"></img></li>
+    <li><img class=i1 src="Pack.png" onClick="enlargePack('i1')"></img></li>
+    <li><img class=i2 src="Pack.png" onClick="enlargePack('i2')"></img></li>
+    <li><img class=i3 src="Pack.png" onClick="enlargePack('i3')"></img></li>
+    <li><img class=i4 src="Pack.png" onClick="enlargePack('i4')"></img></li>
+    <li><img class=i5 src="Pack.png" onClick="enlargePack('i5')"></img></li>
+    <li><img class=i6 src="Pack.png" onClick="enlargePack('i6')"></img></li>
+    <li><img class=i7 src="Pack.png" onClick="enlargePack('i7')"></img></li>
+    <li><img class=i8 src="Pack.png" onClick="enlargePack('i8')"></img></li>
+    <li><img class=i9 src="Pack.png" onClick="enlargePack('i9')"></img></li>
+  </ul>
+
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  
+  <script>
+    
+    window.onload = function() {
+          const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+          console.log(currentUser);
+          if (currentUser) {
+              document.getElementById('menuUsername').textContent = `Welcome, ${currentUser.username}!`;
+          } else {
+              // If no user is logged in, redirect to login page
+              window.location.href = 'index.html';
+          }
+      }
+    
+    // Import the functions you need from the SDKs you need
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyCLjx4Ys4qnzMfRog74NExTUHdZism8u-I",
+      authDomain: "buttoncards.firebaseapp.com",
+      databaseURL: "https://buttoncards-default-rtdb.firebaseio.com",
+      projectId: "buttoncards",
+      storageBucket: "buttoncards.firebasestorage.app",
+      messagingSenderId: "1001795754069",
+      appId: "1:1001795754069:web:1cbf4305a68f9b45eb5cdc",
+      measurementId: "G-F56PTH5YNL"
+    };
+  
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    async function updateCards() {
+      const userRef = db.collection('users');
+      const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+      const userQuery = await userRef
+            .where('name', '==', currentUser.username.toLowerCase())
+            .get();
+      
+      if (!userQuery.empty) {
+            const doc = userQuery.docs[0];
+
+        
+            const currentLogins = doc.data().logins;
+            const currentCards = doc.data().cards;
+            const newLogins = currentLogins + 1;
+            const newCards = currentCards.concat(["01-5"]);
+            console.log(doc.data());
+            console.log(doc.data().logins);
+            
+            await doc.ref.update({
+                cards: newCards,
+                logins: newLogins
+            });
+      } else {
+      await userRef.add({
+          name: currentUser.username.toLowerCase(),
+          cards: [],
+          logins: 0
+      });
+      }
+    }
+
+    function handleLogout() {
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('currentUser');
+        window.location.href = 'index.html';
+    }
+  </script>
+  <script src="scriptCollect.js"></script>
+</body>
+
+</html>

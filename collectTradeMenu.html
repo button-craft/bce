@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Trades - BUTTON Cards</title>
+  <link rel="icon" type="image/png" href="BC_Icon.png">
+  <link href="collectUser.css" rel="stylesheet" type="text/css" />
+  <link href="header.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body oncontextmenu="return false;">
+  
+  <!-- Header Section -->
+  <div class="logoBack">
+    <a class="logoLink" href="home.html">
+      <img class="logo" src="BC_Logo.png" alt="Logo">
+    </a>
+    <div class="user-info">
+      <p id="username">User: Loading</p>
+      <p id="token">Pack Tokens: -</p>
+      <button class="logout-button" onclick="handleLogout()">LOGOUT</button>
+    </div>
+  </div>
+  <div class=line></div>
+  <div class="topnav">
+    <a href="home.html">Pack Store</a>
+    <a href="clicker.html">Clicker</a>
+    <a href="collectAll.html">All Cards</a>
+    <a href="collectSets.html">Sets Checklist</a>
+    <a class="active" href="collectTrade.html">Trading</a>
+    <a href="collectCraft.html">Crafting</a>
+    <a href="collectCompare.html">Compare</a>
+    <a href="collectGem.html">DCGem</a>
+    <a href="collectDC.html">DCMetro</a>
+    <a href="collectJig.html">Jig</a>
+    <a href="collectPeach.html">Peach</a>
+    <a href="collectVoid.html">VoidMax</a>
+    <a href="collectZav.html">Zaveeya</a>
+  </div>
+  <div class=line></div>
+
+  <!-- Enlarged Card -->
+  <img class=large src="Pack.png" onClick="hide()"></img>
+
+  <!-- Trade Page Selector -->
+  <h2 class=collectionTitle>Trade Cards</h2>
+  <div class="tradePageSelect">
+    <a href="collectTrade.html"><h2 class=pageNot>Send Trades</h2></a>
+    <a href="collectTradeMenu.html"><h2 class=pageSelected>View Trades</h2></a>
+  </div>
+
+  <!-- View Trading Cards List -->
+  <h3 class=yourText>Their cards: (You Gain)</h3>
+  <ul class=viewYourList>
+    <li><img class=e0 src="Pack.png" onClick="enlarge('e0')"></img></li>
+    <li><img class=e1 src="Pack.png" onClick="enlarge('e1')"></img></li>
+    <li><img class=e2 src="Pack.png" onClick="enlarge('e2')"></img></li>
+    <li><img class=e3 src="Pack.png" onClick="enlarge('e3')"></img></li>
+    <li><img class=e4 src="Pack.png" onClick="enlarge('e4')"></img></li>
+    <li><img class=e5 src="Pack.png" onClick="enlarge('e5')"></img></li>
+  </ul>
+  <h3>Your cards: (You Lose)</h3>
+  <ul class=viewTheirList>
+    <li><img class=d0 src="Pack.png" onClick="enlarge('d0')"></img></li>
+    <li><img class=d1 src="Pack.png" onClick="enlarge('d1')"></img></li>
+    <li><img class=d2 src="Pack.png" onClick="enlarge('d2')"></img></li>
+    <li><img class=d3 src="Pack.png" onClick="enlarge('d3')"></img></li>
+    <li><img class=d4 src="Pack.png" onClick="enlarge('d4')"></img></li>
+    <li><img class=d5 src="Pack.png" onClick="enlarge('d5')"></img></li>
+  </ul>
+  
+  <button class=compare onClick="acceptTrade()">Accept Trade</button>
+  <button class=compare onClick="declineTrade()">Decline Trade</button>
+  <br>
+  <select name="tradesSelect" class="tradesSelect">
+  </select>
+  <button class=compare onClick="changeTrade()">View Trade</button>
+
+  <!-- Script -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="header.js"></script>
+  <script src="collectTrades.js"></script>
+</body>
+
+</html>

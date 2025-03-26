@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Clicker - BUTTON Cards</title>
+  <link rel="icon" type="image/png" href="BC_Icon.png">
+  <link href="collectUser.css" rel="stylesheet" type="text/css" />
+  <link href="header.css" rel="stylesheet" type="text/css" />
+  <style>
+    /* Lucky Button Styles */
+    .lucky-button-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px auto;
+      max-width: 300px;
+    }
+    
+    .lucky-button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      margin: 10px 0;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+      width: 100%;
+    }
+    
+    .lucky-button:hover {
+      background-color: #45a049;
+    }
+    
+    .lucky-button:disabled {
+      background-color: #cccccc;
+      cursor: not-allowed;
+    }
+    
+    .number-display {
+      font-size: 24px;
+      font-weight: bold;
+      height: 30px;
+      margin: 10px 0;
+    }
+    
+    .cooldown-timer {
+      font-size: 16px;
+      color: #666;
+      height: 20px;
+    }
+    
+    .success {
+      color: #4CAF50;
+    }
+    
+    .failure {
+      color: #f44336;
+    }
+  </style>
+</head>
+<body oncontextmenu="return false;">
+  <!-- Header Section -->
+  <div class="logoBack">
+    <a class="logoLink" href="home.html">
+      <img class="logo" src="BC_Logo.png" alt="Logo">
+    </a>
+    <div class="user-info">
+      <p id="username">User: Loading</p>
+      <p id="token">Pack Tokens: -</p>
+      <button class="logout-button" onclick="handleLogout()">LOGOUT</button>
+    </div>
+  </div>
+  <div class=line></div>
+  <div class="topnav">
+    <a href="home.html">Pack Store</a>
+    <a href="collectAll.html">All Cards</a>
+    <a href="collectSets.html">Sets Checklist</a>
+    <a href="collectTrade.html">Trading</a>
+    <a href="collectCraft.html">Crafting</a>
+    <a href="collectGem.html">DCGem</a>
+    <a href="collectDC.html">DCMetro</a>
+    <a href="collectJig.html">Jig</a>
+    <a href="collectPeach.html">Peach</a>
+    <a href="collectVoid.html">VoidMax</a>
+    <a href="collectZav.html">Zaveeya</a>
+  </div>
+  <div class=line></div>
+  
+  <!-- Page Info -->
+  <h2 class=collectionTitle>View Someone's Collection Here!</h2>
+  
+  <!-- Lucky Button Section -->
+  <div class="lucky-button-container">
+    <button id="luckyButton" class="lucky-button" onclick="tryLuck()">TRY YOUR LUCK (1/10000)</button>
+    <div id="numberDisplay" class="number-display"></div>
+    <div id="cooldownTimer" class="cooldown-timer"></div>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="header.js"></script>
+  <script src="scriptCollect.js"></script>
+  <script>
+    // Lucky Button Functionality
+    let isButtonCooldown = false;
+    let animationInterval;
+    let cooldownInterval;
+    
+    function tryLuck() {
+      if (isButtonCooldown) return;
+      
+      // Disable button during cooldown
+      isButtonCooldown = true;
+      document.getElementById('luckyButton').disabled = true;
+      
+      // Start number animation
+      let counter = 0;
+      const numberDisplay = document.getElementById('numberDisplay');
+      const cooldownTimer = document.getElementById('cooldownTimer');
+      
+      // Clear any existing intervals
+      clearInterval(animationInterval);
+      clearInterval(cooldownInterval);
+      
+      // Determine the result before animation (1/10000 chance of winning)
+      const winningNumber = 777;
+      const result = Math.floor(Math.random() * 10000) + 1;
+      const isWinner = result === 777; // Exactly matching 777 to win
+      
+      // Start animation interval
+      animationInterval = setInterval(() => {
+        // During animation, show rapidly changing numbers
+        if (counter < 50) {
+          // First phase - very fast
+          numberDisplay.textContent = Math.floor(Math.random() * 10000) + 1;
+          numberDisplay.className = 'number-display';
+          counter++;
+        } else if (counter < 80) {
+          // Second phase - slowing down
+          if (counter % 2 === 0) {
+            numberDisplay.textContent = Math.floor(Math.random() * 10000) + 1;
+          }
+          numberDisplay.className = 'number-display';
+          counter++;
+        } else if (counter < 95) {
+          // Third phase - very slow
+          if (counter % 3 === 0) {
+            numberDisplay.textContent = Math.floor(Math.random() * 10000) + 1;
+          }
+          numberDisplay.className = 'number-display';
+          counter++;
+        } else {
+          // Final phase - show result
+          clearInterval(animationInterval);
+          
+          // Display the final result
+          if (isWinner) {
+            numberDisplay.textContent = winningNumber;
+            numberDisplay.className = 'number-display success';
+            // Flash effect for winning
+            let flashCount = 0;
+            const flashInterval = setInterval(() => {
+              numberDisplay.style.visibility = numberDisplay.style.visibility === 'hidden' ? 'visible' : 'hidden';
+              flashCount++;
+              if (flashCount > 5) {
+                clearInterval(flashInterval);
+                numberDisplay.style.visibility = 'visible';
+              }
+            }, 200);
+            
+            // Add token
+            addPackToken();
+          } else {
+            numberDisplay.textContent = result;
+            numberDisplay.className = 'number-display failure';
+          }
+          
+          // Start cooldown timer
+          let cooldownTime = 10;
+          cooldownTimer.textContent = `Try again in ${cooldownTime} seconds`;
+          
+          cooldownInterval = setInterval(() => {
+            cooldownTime--;
+            cooldownTimer.textContent = `Try again in ${cooldownTime} seconds`;
+            
+            if (cooldownTime <= 0) {
+              clearInterval(cooldownInterval);
+              cooldownTimer.textContent = '';
+              document.getElementById('luckyButton').disabled = false;
+              isButtonCooldown = false;
+            }
+          }, 1000);
+        }
+      }, 25); // Update speed for animation
+    }
+    
+    async function addPackToken() {
+      try {
+        const userRef = db.collection('users');
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const userQuery = await userRef
+          .where('name', '==', currentUser.username.toLowerCase())
+          .get();
+          
+        const doc = userQuery.docs[0];
+        let curTokens = doc.data().tokens;
+        
+        // Add one token
+        let newTokens = curTokens + 1;
+        await doc.ref.update({
+          tokens: newTokens
+        });
+        
+        // Update displayed token count
+        document.getElementById("token").innerHTML = "Pack Tokens: " + newTokens;
+      } catch (error) {
+        console.error("Error adding token:", error);
+      }
+    }
+  </script>
+</body>
+</html>

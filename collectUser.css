@@ -1,0 +1,147 @@
+/* ----- User's Collection List ----- */
+.collectionTitle{
+  text-align: center;
+  font-size: 40px;
+  color: darkblue;
+  margin-bottom: 14px;
+  margin-top: 35px;
+}
+
+.collectionList, .set, .tradeList, .yourList, .resultList, .myList, .viewYourList, .viewTheirList{
+  background-color: #070552ff;
+  border: 6px solid #ffce00ff;
+  border-radius: 5px;
+  width: 95%;
+  margin: auto;
+  padding: 2px;
+  padding-top: 5px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.yourList, .myList{
+  display: none;
+}
+
+.collectionList li, .set li, .tradeList li, .yourList li, .resultList li, .myList li, .viewYourList li, .viewTheirList li{
+  width: 106px; 
+  margin: 6px;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.collectionList img, .set img, .tradeList img, .yourList img, .resultList img, .myList img, .viewYourList img, .viewTheirList img{
+  width: 0px;
+}
+
+.set{
+  margin-bottom:10px;
+  max-width: 95%;
+  width:fit-content;
+  box-sizing: border-box;
+  display: none;
+}
+
+button{
+  margin-left: 10px;
+  margin-bottom: 16px;
+  margin-top: 5px;
+  border: black 2px solid;
+  padding: 4px;
+  padding-left: 6px;
+  padding-right: 6px;
+  border-radius: 5px;
+  background-color: darkblue;
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+button:hover {
+  border: darkblue 2px solid;
+  background-color: blue;
+}
+
+/* ----- Trade Page Selector ----- */
+.tradePageSelect {
+  margin-top: -20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 4px solid black;
+  border-radius: 20px;
+  overflow: hidden;
+  width: 300px;
+  height: 40px;
+  margin: 0 auto;
+}
+.tradePageSelect a{
+  text-decoration: none;
+}
+
+.tradePageSelect a h2{
+  color: white;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: 20px;
+  border: none;
+  height: 40px;
+  width: 150px;
+}
+
+.pageSelected {
+  background-color: blue;
+}
+.pageNot {
+  background-color: #292929;
+}
+.pageNot:hover {
+  background-color: darkblue;
+}
+
+/* ----- Send Trade Page ----- */
+h3 {
+  color: darkblue;
+}
+.tradeText{
+  display: inline;
+  color: darkblue;
+}
+.send, .yours{
+  display: none;
+}
+.compare{
+  margin-top: 20px;
+}
+
+/* ----- Enlarged Card ----- */
+.large{
+  margin: auto;
+  margin-top: 25px;
+  width: 300px;
+  margin-bottom: 25px;
+  display: none;
+}
+
+/* ----- Clicker Button ----- */
+.clicker{
+  margin: auto;
+  margin-top: 25px;
+  width: 250px;
+  height: 150px;
+  border-radius: 10px;
+  border: black 6px solid;
+  font-size: 46px;
+}
+
+.clicker:hover{
+  border: darkblue 6px solid;
+  background-color: blue;
+}
+

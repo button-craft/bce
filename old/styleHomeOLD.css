@@ -1,0 +1,251 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body{
+  background-color:#00CCEE;
+  text-align:center;
+  margin:0;
+}
+
+.logo{
+  width:60%;
+  float:true;
+  margin-top:10px;
+}
+
+.logoBack {
+  width: 100%;
+  height: 10%;
+  background-color: white;
+  position: relative;
+  display: flex;
+  justify-content: center; /* Center logo */
+  align-items: center; /* Center all other content */
+  flex-direction: column;
+}
+
+.line{
+  width:100%;
+  height:5px;
+  background-color:darkblue;
+}
+
+.user-info {
+  position: absolute;
+  top: 10px; 
+  right: 10px; /* Position it at the top-right corner */
+  color: darkblue;
+  text-align: right;
+  font-family: Helvetica;
+  font-size: 18px;
+}
+
+.user-info p {
+  margin: 0;
+  font-family: Helvetica;
+  font-weight: bold;
+  color: darkblue;
+  font-size: 1.5vw; /* Font size based on viewport width */
+}
+
+.user-info:nth-child(2) p {
+  margin-bottom: 1vw;
+}
+
+.logout-button {
+  margin-top: 10px;
+  border: darkblue 2px solid;
+  border-radius: 0.5vw;
+  padding: 0vh 0.5vw; /* Padding proportional to viewport size */
+  background-color: blue;
+  color: white;
+  font-weight: bold;
+  font-size: 1.5vw; /* Font size based on viewport width */
+  width: auto;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: black;
+}
+
+/* New Section for Pack Options */
+.pack-options {
+  display: flex;
+  justify-content: center;
+  gap: 80px; /* Space between the options */
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.pack-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.pack-option h3 {
+  font-size: 24px;
+  color: darkblue;
+  font-family: Helvetica;
+  width: 300px;
+  margin-top: -5px;
+}
+
+.pack-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  border: black 4px solid;
+}
+
+.open-pack {
+  border: black 3px solid;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 18px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: -5px;
+}
+
+.open-pack:hover {
+  border: white 3px solid;
+  color: black;
+  opacity:80%;
+}
+
+/* Add custom colors for each pack */
+.pack-option:nth-child(1) .open-pack {
+  background-color: #FF5733; /* Red for Pack 1 */
+}
+
+.pack-option:nth-child(2) .open-pack {
+  background-color: #33FF57; /* Green for Pack 2 */
+}
+
+.pack-option:nth-child(3) .open-pack {
+  background-color: #3357FF; /* Blue for Pack 3 */
+}
+
+.pack{
+  margin-top:25px;
+  width:0px;
+  margin-bottom:10px;
+}
+
+.resultList{
+  /*background-color:#00CCEE;*/
+  width:95%;
+  padding:0;
+  margin:auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  background-color: #000044;
+  border: 4px solid blue;
+  display:none;
+}
+
+.resultList li{
+  width: 100px; 
+  margin:5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flexMe li img{
+  width: 100%; 
+  height: auto;
+  float:left;
+}
+
+.resultList img{
+  width:0px;
+}
+
+.resultTitle{
+  text-align:center;
+  font-size:40px;
+  font-family:Helvetica;
+  color:darkblue;
+  margin-bottom:-12px;
+  margin-top:4px;  
+  display:none;
+}
+
+.cardsList{
+  text-align:center;
+  font-size:28px;
+  font-family:Helvetica;
+  color:#00CCEE;
+  margin-bottom:18px;
+  margin-top:10px;
+}
+
+
+
+.topnav {
+  overflow: hidden;
+  background-color: darkblue;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: darkcyan;
+  color: white;
+}
+
+.codeTitle {
+  text-align:center;
+  font-size:34px;
+  font-family:Helvetica;
+  color:darkblue;
+  margin-bottom:0px;
+  margin-top:20px;
+}
+
+/*input{
+  margin-bottom:30px;
+  height:40px;
+  width:190px;
+  font-size:20px;
+  border:darkblue 2px solid;
+  border-radius:10px;
+  padding-left:12px;
+  float:true;
+}*/
+
+/*#enter{
+  margin-bottom:30px;
+  border:darkblue 2px solid;
+  border-radius:7px;
+  padding:6px;
+  float:true;
+  background-color:blue;
+  color:white;
+  font-weight:bold;
+}*/

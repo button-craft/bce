@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Trades - BUTTON Cards</title>
+  <link rel="icon" type="image/png" href="BC_Icon.png">
+  <link href="collectUser.css" rel="stylesheet" type="text/css" />
+  <link href="header.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body oncontextmenu="return false;">
+  
+  <!-- Header Section -->
+  <div class="logoBack">
+    <a class="logoLink" href="home.html">
+      <img class="logo" src="BC_Logo.png" alt="Logo">
+    </a>
+    <div class="user-info">
+      <p id="username">User: Loading</p>
+      <p id="token">Pack Tokens: -</p>
+      <button class="logout-button" onclick="handleLogout()">LOGOUT</button>
+    </div>
+  </div>
+  <div class=line></div>
+  <div class="topnav">
+    <a href="home.html">Pack Store</a>
+    <a href="clicker.html">Clicker</a>
+    <a href="collectAll.html">All Cards</a>
+    <a href="collectSets.html">Sets Checklist</a>
+    <a class="active" href="collectTrade.html">Trading</a>
+    <a href="collectCraft.html">Crafting</a>
+    <a href="collectCompare.html">Compare</a>
+    <a href="collectGem.html">DCGem</a>
+    <a href="collectDC.html">DCMetro</a>
+    <a href="collectJig.html">Jig</a>
+    <a href="collectPeach.html">Peach</a>
+    <a href="collectVoid.html">VoidMax</a>
+    <a href="collectZav.html">Zaveeya</a>
+  </div>
+  <div class=line></div>
+
+  <!-- Enlarged Card -->
+  <img class=large src="Pack.png" onClick="hide()"></img>
+
+  <!-- Trade Page Selector -->
+  <h2 class=collectionTitle>Trade Cards</h2>
+  <div class="tradePageSelect">
+    <a href="collectTrade.html"><h2 class=pageSelected>Send Trades</h2></a>
+    <a href="collectTradeMenu.html"><h2 class=pageNot>View Trades</h2></a>
+  </div>
+
+  <!-- Trading Cards Lists -->
+  <h3>Their cards: (You Gain)</h3>
+  <ul class=tradeList>
+    <li><img class=d0 src="Pack.png" onClick="removeFromTradeList('d0')"></img></li>
+    <li><img class=d1 src="Pack.png" onClick="removeFromTradeList('d1')"></img></li>
+    <li><img class=d2 src="Pack.png" onClick="removeFromTradeList('d2')"></img></li>
+    <li><img class=d3 src="Pack.png" onClick="removeFromTradeList('d3')"></img></li>
+    <li><img class=d4 src="Pack.png" onClick="removeFromTradeList('d4')"></img></li>
+    <li><img class=d5 src="Pack.png" onClick="removeFromTradeList('d5')"></img></li>
+  </ul>
+  <h3 class=yours>Your cards: (You Lose)</h3>
+  <ul class=yourList>
+    <li><img class=e0 src="Pack.png" onClick="removeFromYourList('e0')"></img></li>
+    <li><img class=e1 src="Pack.png" onClick="removeFromYourList('e1')"></img></li>
+    <li><img class=e2 src="Pack.png" onClick="removeFromYourList('e2')"></img></li>
+    <li><img class=e3 src="Pack.png" onClick="removeFromYourList('e3')"></img></li>
+    <li><img class=e4 src="Pack.png" onClick="removeFromYourList('e4')"></img></li>
+    <li><img class=e5 src="Pack.png" onClick="removeFromYourList('e5')"></img></li>
+  </ul>
+
+  <!-- Player Selector -->
+  <p class=tradeText>Trading with</p>
+  <select name="Tplayers" class="Tplayers">
+    <option class=t1 value="dc">DCMetro</option>
+    <option class=t2 value="gem">DCGem</option>
+    <option class=t3 value="jig">Jig</option>
+    <option class=t4 value="peach">Peach</option>
+    <option class=t5 value="void">VoidMax</option>
+    <option class=t6 value="zav">Zaveeya</option>
+  </select>
+  
+  <!-- Button Selectors -->
+  <button class=compare onClick="resetTradeList(); selectTrade();">Search</button>
+  <button class=compare onClick="saveTrade();">Confirm Trade</button>
+  <button class=send onClick="sendTrade()">Send Trade</button>
+
+  <!-- User's Cards Lists -->
+  <ul class=resultList>
+    <li><img class=c0 src="Pack.png" onClick="moveToTradeList('c0')"></img></li>
+    <li><img class=c1 src="Pack.png" onClick="moveToTradeList('c1')"></img></li>
+    <li><img class=c2 src="Pack.png" onClick="moveToTradeList('c2')"></img></li>
+    <li><img class=c3 src="Pack.png" onClick="moveToTradeList('c3')"></img></li>
+    <li><img class=c4 src="Pack.png" onClick="moveToTradeList('c4')"></img></li>
+    <li><img class=c5 src="Pack.png" onClick="moveToTradeList('c5')"></img></li>
+    <li><img class=c6 src="Pack.png" onClick="moveToTradeList('c6')"></img></li>
+    <li><img class=c7 src="Pack.png" onClick="moveToTradeList('c7')"></img></li>
+    <li><img class=c8 src="Pack.png" onClick="moveToTradeList('c8')"></img></li>
+    <li><img class=c9 src="Pack.png" onClick="moveToTradeList('c9')"></img></li>
+    <li><img class=c10 src="Pack.png" onClick="moveToTradeList('c10')"></img></li>
+    <li><img class=c11 src="Pack.png" onClick="moveToTradeList('c11')"></img></li>
+    <li><img class=c12 src="Pack.png" onClick="moveToTradeList('c12')"></img></li>
+    <li><img class=c13 src="Pack.png" onClick="moveToTradeList('c13')"></img></li>
+    <li><img class=c14 src="Pack.png" onClick="moveToTradeList('c14')"></img></li>
+    <li><img class=c15 src="Pack.png" onClick="moveToTradeList('c15')"></img></li>
+    <li><img class=c16 src="Pack.png" onClick="moveToTradeList('c16')"></img></li>
+    <li><img class=c17 src="Pack.png" onClick="moveToTradeList('c17')"></img></li>
+    <li><img class=c18 src="Pack.png" onClick="moveToTradeList('c18')"></img></li>
+    <li><img class=c19 src="Pack.png" onClick="moveToTradeList('c19')"></img></li>
+    <li><img class=c20 src="Pack.png" onClick="moveToTradeList('c20')"></img></li>
+    <li><img class=c21 src="Pack.png" onClick="moveToTradeList('c21')"></img></li>
+    <li><img class=c22 src="Pack.png" onClick="moveToTradeList('c22')"></img></li>
+    <li><img class=c23 src="Pack.png" onClick="moveToTradeList('c23')"></img></li>
+    <li><img class=c24 src="Pack.png" onClick="moveToTradeList('c24')"></img></li>
+    <li><img class=c25 src="Pack.png" onClick="moveToTradeList('c25')"></img></li>
+    <li><img class=c26 src="Pack.png" onClick="moveToTradeList('c26')"></img></li>
+    <li><img class=c27 src="Pack.png" onClick="moveToTradeList('c27')"></img></li>
+    <li><img class=c28 src="Pack.png" onClick="moveToTradeList('c28')"></img></li>
+    <li><img class=c29 src="Pack.png" onClick="moveToTradeList('c29')"></img></li>
+    <li><img class=c30 src="Pack.png" onClick="moveToTradeList('c30')"></img></li>
+    <li><img class=c31 src="Pack.png" onClick="moveToTradeList('c31')"></img></li>
+    <li><img class=c32 src="Pack.png" onClick="moveToTradeList('c32')"></img></li>
+    <li><img class=c33 src="Pack.png" onClick="moveToTradeList('c33')"></img></li>
+    <li><img class=c34 src="Pack.png" onClick="moveToTradeList('c34')"></img></li>
+    <li><img class=c35 src="Pack.png" onClick="moveToTradeList('c35')"></img></li>
+    <li><img class=c36 src="Pack.png" onClick="moveToTradeList('c36')"></img></li>
+    <li><img class=c37 src="Pack.png" onClick="moveToTradeList('c37')"></img></li>
+    <li><img class=c38 src="Pack.png" onClick="moveToTradeList('c38')"></img></li>
+    <li><img class=c39 src="Pack.png" onClick="moveToTradeList('c39')"></img></li>
+    <li><img class=c40 src="Pack.png" onClick="moveToTradeList('c40')"></img></li>
+    <li><img class=c41 src="Pack.png" onClick="moveToTradeList('c41')"></img></li>
+    <li><img class=c42 src="Pack.png" onClick="moveToTradeList('c42')"></img></li>
+    <li><img class=c43 src="Pack.png" onClick="moveToTradeList('c43')"></img></li>
+    <li><img class=c44 src="Pack.png" onClick="moveToTradeList('c44')"></img></li>
+    <li><img class=c45 src="Pack.png" onClick="moveToTradeList('c45')"></img></li>
+    <li><img class=c46 src="Pack.png" onClick="moveToTradeList('c46')"></img></li>
+    <li><img class=c47 src="Pack.png" onClick="moveToTradeList('c47')"></img></li>
+    <li><img class=c48 src="Pack.png" onClick="moveToTradeList('c48')"></img></li>
+    <li><img class=c49 src="Pack.png" onClick="moveToTradeList('c49')"></img></li>
+    <li><img class=c50 src="Pack.png" onClick="moveToTradeList('c50')"></img></li>
+    <li><img class=c51 src="Pack.png" onClick="moveToTradeList('c51')"></img></li>
+    <li><img class=c52 src="Pack.png" onClick="moveToTradeList('c52')"></img></li>
+    <li><img class=c53 src="Pack.png" onClick="moveToTradeList('c53')"></img></li>
+    <li><img class=c54 src="Pack.png" onClick="moveToTradeList('c54')"></img></li>
+    <li><img class=c55 src="Pack.png" onClick="moveToTradeList('c55')"></img></li>
+    <li><img class=c56 src="Pack.png" onClick="moveToTradeList('c56')"></img></li>
+    <li><img class=c57 src="Pack.png" onClick="moveToTradeList('c57')"></img></li>
+    <li><img class=c58 src="Pack.png" onClick="moveToTradeList('c58')"></img></li>
+    <li><img class=c59 src="Pack.png" onClick="moveToTradeList('c59')"></img></li>
+    <li><img class=c60 src="Pack.png" onClick="moveToTradeList('c60')"></img></li>
+    <li><img class=c61 src="Pack.png" onClick="moveToTradeList('c61')"></img></li>
+    <li><img class=c62 src="Pack.png" onClick="moveToTradeList('c62')"></img></li>
+    <li><img class=c63 src="Pack.png" onClick="moveToTradeList('c63')"></img></li>
+    <li><img class=c64 src="Pack.png" onClick="moveToTradeList('c64')"></img></li>
+    <li><img class=c65 src="Pack.png" onClick="moveToTradeList('c65')"></img></li>
+    <li><img class=c66 src="Pack.png" onClick="moveToTradeList('c66')"></img></li>
+    <li><img class=c67 src="Pack.png" onClick="moveToTradeList('c67')"></img></li>
+    <li><img class=c68 src="Pack.png" onClick="moveToTradeList('c68')"></img></li>
+    <li><img class=c69 src="Pack.png" onClick="moveToTradeList('c69')"></img></li>
+    <li><img class=c70 src="Pack.png" onClick="moveToTradeList('c70')"></img></li>
+    <li><img class=c71 src="Pack.png" onClick="moveToTradeList('c71')"></img></li>
+    <li><img class=c72 src="Pack.png" onClick="moveToTradeList('c72')"></img></li>
+    <li><img class=c73 src="Pack.png" onClick="moveToTradeList('c73')"></img></li>
+    <li><img class=c74 src="Pack.png" onClick="moveToTradeList('c74')"></img></li>
+    <li><img class=c75 src="Pack.png" onClick="moveToTradeList('c75')"></img></li>
+    <li><img class=c76 src="Pack.png" onClick="moveToTradeList('c76')"></img></li>
+    <li><img class=c77 src="Pack.png" onClick="moveToTradeList('c77')"></img></li>
+    <li><img class=c78 src="Pack.png" onClick="moveToTradeList('c78')"></img></li>
+    <li><img class=c79 src="Pack.png" onClick="moveToTradeList('c79')"></img></li>
+    <li><img class=c80 src="Pack.png" onClick="moveToTradeList('c80')"></img></li>
+    <li><img class=c81 src="Pack.png" onClick="moveToTradeList('c81')"></img></li>
+    <li><img class=c82 src="Pack.png" onClick="moveToTradeList('c82')"></img></li>
+    <li><img class=c83 src="Pack.png" onClick="moveToTradeList('c83')"></img></li>
+    <li><img class=c84 src="Pack.png" onClick="moveToTradeList('c84')"></img></li>
+    <li><img class=c85 src="Pack.png" onClick="moveToTradeList('c85')"></img></li>
+    <li><img class=c86 src="Pack.png" onClick="moveToTradeList('c86')"></img></li>
+    <li><img class=c87 src="Pack.png" onClick="moveToTradeList('c87')"></img></li>
+    <li><img class=c88 src="Pack.png" onClick="moveToTradeList('c88')"></img></li>
+    <li><img class=c89 src="Pack.png" onClick="moveToTradeList('c89')"></img></li>
+    <li><img class=c90 src="Pack.png" onClick="moveToTradeList('c90')"></img></li>
+    <li><img class=c91 src="Pack.png" onClick="moveToTradeList('c91')"></img></li>
+    <li><img class=c92 src="Pack.png" onClick="moveToTradeList('c92')"></img></li>
+    <li><img class=c93 src="Pack.png" onClick="moveToTradeList('c93')"></img></li>
+    <li><img class=c94 src="Pack.png" onClick="moveToTradeList('c94')"></img></li>
+    <li><img class=c95 src="Pack.png" onClick="moveToTradeList('c95')"></img></li>
+    <li><img class=c96 src="Pack.png" onClick="moveToTradeList('c96')"></img></li>
+    <li><img class=c97 src="Pack.png" onClick="moveToTradeList('c97')"></img></li>
+    <li><img class=c98 src="Pack.png" onClick="moveToTradeList('c98')"></img></li>
+    <li><img class=c99 src="Pack.png" onClick="moveToTradeList('c99')"></img></li>
+    <li><img class=c100 src="Pack.png" onClick="moveToTradeList('c100')"></img></li>
+    <li><img class=c101 src="Pack.png" onClick="moveToTradeList('c101')"></img></li>
+    <li><img class=c102 src="Pack.png" onClick="moveToTradeList('c102')"></img></li>
+    <li><img class=c103 src="Pack.png" onClick="moveToTradeList('c103')"></img></li>
+    <li><img class=c104 src="Pack.png" onClick="moveToTradeList('c104')"></img></li>
+    <li><img class=c105 src="Pack.png" onClick="moveToTradeList('c105')"></img></li>
+    <li><img class=c106 src="Pack.png" onClick="moveToTradeList('c106')"></img></li>
+    <li><img class=c107 src="Pack.png" onClick="moveToTradeList('c107')"></img></li>
+    <li><img class=c108 src="Pack.png" onClick="moveToTradeList('c108')"></img></li>
+    <li><img class=c109 src="Pack.png" onClick="moveToTradeList('c109')"></img></li>
+    <li><img class=c110 src="Pack.png" onClick="moveToTradeList('c110')"></img></li>
+    <li><img class=c111 src="Pack.png" onClick="moveToTradeList('c111')"></img></li>
+    <li><img class=c112 src="Pack.png" onClick="moveToTradeList('c112')"></img></li>
+    <li><img class=c113 src="Pack.png" onClick="moveToTradeList('c113')"></img></li>
+    <li><img class=c114 src="Pack.png" onClick="moveToTradeList('c114')"></img></li>
+    <li><img class=c115 src="Pack.png" onClick="moveToTradeList('c115')"></img></li>
+    <li><img class=c116 src="Pack.png" onClick="moveToTradeList('c116')"></img></li>
+    <li><img class=c117 src="Pack.png" onClick="moveToTradeList('c117')"></img></li>
+    <li><img class=c118 src="Pack.png" onClick="moveToTradeList('c118')"></img></li>
+    <li><img class=c119 src="Pack.png" onClick="moveToTradeList('c119')"></img></li>
+    <li><img class=c120 src="Pack.png" onClick="moveToTradeList('c120')"></img></li>
+    <li><img class=c121 src="Pack.png" onClick="moveToTradeList('c121')"></img></li>
+    <li><img class=c122 src="Pack.png" onClick="moveToTradeList('c122')"></img></li>
+    <li><img class=c123 src="Pack.png" onClick="moveToTradeList('c123')"></img></li>
+    <li><img class=c124 src="Pack.png" onClick="moveToTradeList('c124')"></img></li>
+    <li><img class=c125 src="Pack.png" onClick="moveToTradeList('c125')"></img></li>
+    <li><img class=c126 src="Pack.png" onClick="moveToTradeList('c126')"></img></li>
+    <li><img class=c127 src="Pack.png" onClick="moveToTradeList('c127')"></img></li>
+    <li><img class=c128 src="Pack.png" onClick="moveToTradeList('c128')"></img></li>
+    <li><img class=c129 src="Pack.png" onClick="moveToTradeList('c129')"></img></li>
+    <li><img class=c130 src="Pack.png" onClick="moveToTradeList('c130')"></img></li>
+    <li><img class=c131 src="Pack.png" onClick="moveToTradeList('c131')"></img></li>
+    <li><img class=c132 src="Pack.png" onClick="moveToTradeList('c132')"></img></li>
+    <li><img class=c133 src="Pack.png" onClick="moveToTradeList('c133')"></img></li>
+    <li><img class=c134 src="Pack.png" onClick="moveToTradeList('c134')"></img></li>
+    <li><img class=c135 src="Pack.png" onClick="moveToTradeList('c135')"></img></li>
+    <li><img class=c136 src="Pack.png" onClick="moveToTradeList('c136')"></img></li>
+    <li><img class=c137 src="Pack.png" onClick="moveToTradeList('c137')"></img></li>
+    <li><img class=c138 src="Pack.png" onClick="moveToTradeList('c138')"></img></li>
+    <li><img class=c139 src="Pack.png" onClick="moveToTradeList('c139')"></img></li>
+    <li><img class=c140 src="Pack.png" onClick="moveToTradeList('c140')"></img></li>
+    <li><img class=c141 src="Pack.png" onClick="moveToTradeList('c141')"></img></li>
+    <li><img class=c142 src="Pack.png" onClick="moveToTradeList('c142')"></img></li>
+    <li><img class=c143 src="Pack.png" onClick="moveToTradeList('c143')"></img></li>
+    <li><img class=c144 src="Pack.png" onClick="moveToTradeList('c144')"></img></li>
+    <li><img class=c145 src="Pack.png" onClick="moveToTradeList('c145')"></img></li>
+    <li><img class=c146 src="Pack.png" onClick="moveToTradeList('c146')"></img></li>
+    <li><img class=c147 src="Pack.png" onClick="moveToTradeList('c147')"></img></li>
+    <li><img class=c148 src="Pack.png" onClick="moveToTradeList('c148')"></img></li>
+    <li><img class=c149 src="Pack.png" onClick="moveToTradeList('c149')"></img></li>
+    <li><img class=c150 src="Pack.png" onClick="moveToTradeList('c150')"></img></li>
+    <li><img class=c151 src="Pack.png" onClick="moveToTradeList('c151')"></img></li>
+    <li><img class=c152 src="Pack.png" onClick="moveToTradeList('c152')"></img></li>
+    <li><img class=c153 src="Pack.png" onClick="moveToTradeList('c153')"></img></li>
+    <li><img class=c154 src="Pack.png" onClick="moveToTradeList('c154')"></img></li>
+    <li><img class=c155 src="Pack.png" onClick="moveToTradeList('c155')"></img></li>
+    <li><img class=c156 src="Pack.png" onClick="moveToTradeList('c156')"></img></li>
+    <li><img class=c157 src="Pack.png" onClick="moveToTradeList('c157')"></img></li>
+    <li><img class=c158 src="Pack.png" onClick="moveToTradeList('c158')"></img></li>
+    <li><img class=c159 src="Pack.png" onClick="moveToTradeList('c159')"></img></li>
+    <li><img class=c160 src="Pack.png" onClick="moveToTradeList('c160')"></img></li>
+    <li><img class=c161 src="Pack.png" onClick="moveToTradeList('c161')"></img></li>
+    <li><img class=c162 src="Pack.png" onClick="moveToTradeList('c162')"></img></li>
+    <li><img class=c163 src="Pack.png" onClick="moveToTradeList('c163')"></img></li>
+    <li><img class=c164 src="Pack.png" onClick="moveToTradeList('c164')"></img></li>
+    <li><img class=c165 src="Pack.png" onClick="moveToTradeList('c165')"></img></li>
+    <li><img class=c166 src="Pack.png" onClick="moveToTradeList('c166')"></img></li>
+    <li><img class=c167 src="Pack.png" onClick="moveToTradeList('c167')"></img></li>
+    <li><img class=c168 src="Pack.png" onClick="moveToTradeList('c168')"></img></li>
+    <li><img class=c169 src="Pack.png" onClick="moveToTradeList('c169')"></img></li>
+    <li><img class=c170 src="Pack.png" onClick="moveToTradeList('c170')"></img></li>
+    <li><img class=c171 src="Pack.png" onClick="moveToTradeList('c171')"></img></li>
+    <li><img class=c172 src="Pack.png" onClick="moveToTradeList('c172')"></img></li>
+    <li><img class=c173 src="Pack.png" onClick="moveToTradeList('c173')"></img></li>
+    <li><img class=c174 src="Pack.png" onClick="moveToTradeList('c174')"></img></li>
+    <li><img class=c175 src="Pack.png" onClick="moveToTradeList('c175')"></img></li>
+    <li><img class=c176 src="Pack.png" onClick="moveToTradeList('c176')"></img></li>
+    <li><img class=c177 src="Pack.png" onClick="moveToTradeList('c177')"></img></li>
+    <li><img class=c178 src="Pack.png" onClick="moveToTradeList('c178')"></img></li>
+    <li><img class=c179 src="Pack.png" onClick="moveToTradeList('c179')"></img></li>
+    <li><img class=c180 src="Pack.png" onClick="moveToTradeList('c180')"></img></li>
+    <li><img class=c181 src="Pack.png" onClick="moveToTradeList('c181')"></img></li>
+    <li><img class=c182 src="Pack.png" onClick="moveToTradeList('c182')"></img></li>
+    <li><img class=c183 src="Pack.png" onClick="moveToTradeList('c183')"></img></li>
+    <li><img class=c184 src="Pack.png" onClick="moveToTradeList('c184')"></img></li>
+    <li><img class=c185 src="Pack.png" onClick="moveToTradeList('c185')"></img></li>
+    <li><img class=c186 src="Pack.png" onClick="moveToTradeList('c186')"></img></li>
+    <li><img class=c187 src="Pack.png" onClick="moveToTradeList('c187')"></img></li>
+    <li><img class=c188 src="Pack.png" onClick="moveToTradeList('c188')"></img></li>
+    <li><img class=c189 src="Pack.png" onClick="moveToTradeList('c189')"></img></li>
+    <li><img class=c190 src="Pack.png" onClick="moveToTradeList('c190')"></img></li>
+    <li><img class=c191 src="Pack.png" onClick="moveToTradeList('c191')"></img></li>
+    <li><img class=c192 src="Pack.png" onClick="moveToTradeList('c192')"></img></li>
+    <li><img class=c193 src="Pack.png" onClick="moveToTradeList('c193')"></img></li>
+    <li><img class=c194 src="Pack.png" onClick="moveToTradeList('c194')"></img></li>
+    <li><img class=c195 src="Pack.png" onClick="moveToTradeList('c195')"></img></li>
+    <li><img class=c196 src="Pack.png" onClick="moveToTradeList('c196')"></img></li>
+    <li><img class=c197 src="Pack.png" onClick="moveToTradeList('c197')"></img></li>
+    <li><img class=c198 src="Pack.png" onClick="moveToTradeList('c198')"></img></li>
+    <li><img class=c199 src="Pack.png" onClick="moveToTradeList('c199')"></img></li>
+  </ul>
+
+<ul class=myList>
+    <li><img class=f0 src="Pack.png" onClick="moveToYourList('f0')"></img></li>
+    <li><img class=f1 src="Pack.png" onClick="moveToYourList('f1')"></img></li>
+    <li><img class=f2 src="Pack.png" onClick="moveToYourList('f2')"></img></li>
+    <li><img class=f3 src="Pack.png" onClick="moveToYourList('f3')"></img></li>
+    <li><img class=f4 src="Pack.png" onClick="moveToYourList('f4')"></img></li>
+    <li><img class=f5 src="Pack.png" onClick="moveToYourList('f5')"></img></li>
+    <li><img class=f6 src="Pack.png" onClick="moveToYourList('f6')"></img></li>
+    <li><img class=f7 src="Pack.png" onClick="moveToYourList('f7')"></img></li>
+    <li><img class=f8 src="Pack.png" onClick="moveToYourList('f8')"></img></li>
+    <li><img class=f9 src="Pack.png" onClick="moveToYourList('f9')"></img></li>
+    <li><img class=f10 src="Pack.png" onClick="moveToYourList('f10')"></img></li>
+    <li><img class=f11 src="Pack.png" onClick="moveToYourList('f11')"></img></li>
+    <li><img class=f12 src="Pack.png" onClick="moveToYourList('f12')"></img></li>
+    <li><img class=f13 src="Pack.png" onClick="moveToYourList('f13')"></img></li>
+    <li><img class=f14 src="Pack.png" onClick="moveToYourList('f14')"></img></li>
+    <li><img class=f15 src="Pack.png" onClick="moveToYourList('f15')"></img></li>
+    <li><img class=f16 src="Pack.png" onClick="moveToYourList('f16')"></img></li>
+    <li><img class=f17 src="Pack.png" onClick="moveToYourList('f17')"></img></li>
+    <li><img class=f18 src="Pack.png" onClick="moveToYourList('f18')"></img></li>
+    <li><img class=f19 src="Pack.png" onClick="moveToYourList('f19')"></img></li>
+    <li><img class=f20 src="Pack.png" onClick="moveToYourList('f20')"></img></li>
+    <li><img class=f21 src="Pack.png" onClick="moveToYourList('f21')"></img></li>
+    <li><img class=f22 src="Pack.png" onClick="moveToYourList('f22')"></img></li>
+    <li><img class=f23 src="Pack.png" onClick="moveToYourList('f23')"></img></li>
+    <li><img class=f24 src="Pack.png" onClick="moveToYourList('f24')"></img></li>
+    <li><img class=f25 src="Pack.png" onClick="moveToYourList('f25')"></img></li>
+    <li><img class=f26 src="Pack.png" onClick="moveToYourList('f26')"></img></li>
+    <li><img class=f27 src="Pack.png" onClick="moveToYourList('f27')"></img></li>
+    <li><img class=f28 src="Pack.png" onClick="moveToYourList('f28')"></img></li>
+    <li><img class=f29 src="Pack.png" onClick="moveToYourList('f29')"></img></li>
+    <li><img class=f30 src="Pack.png" onClick="moveToYourList('f30')"></img></li>
+    <li><img class=f31 src="Pack.png" onClick="moveToYourList('f31')"></img></li>
+    <li><img class=f32 src="Pack.png" onClick="moveToYourList('f32')"></img></li>
+    <li><img class=f33 src="Pack.png" onClick="moveToYourList('f33')"></img></li>
+    <li><img class=f34 src="Pack.png" onClick="moveToYourList('f34')"></img></li>
+    <li><img class=f35 src="Pack.png" onClick="moveToYourList('f35')"></img></li>
+    <li><img class=f36 src="Pack.png" onClick="moveToYourList('f36')"></img></li>
+    <li><img class=f37 src="Pack.png" onClick="moveToYourList('f37')"></img></li>
+    <li><img class=f38 src="Pack.png" onClick="moveToYourList('f38')"></img></li>
+    <li><img class=f39 src="Pack.png" onClick="moveToYourList('f39')"></img></li>
+    <li><img class=f40 src="Pack.png" onClick="moveToYourList('f40')"></img></li>
+    <li><img class=f41 src="Pack.png" onClick="moveToYourList('f41')"></img></li>
+    <li><img class=f42 src="Pack.png" onClick="moveToYourList('f42')"></img></li>
+    <li><img class=f43 src="Pack.png" onClick="moveToYourList('f43')"></img></li>
+    <li><img class=f44 src="Pack.png" onClick="moveToYourList('f44')"></img></li>
+    <li><img class=f45 src="Pack.png" onClick="moveToYourList('f45')"></img></li>
+    <li><img class=f46 src="Pack.png" onClick="moveToYourList('f46')"></img></li>
+    <li><img class=f47 src="Pack.png" onClick="moveToYourList('f47')"></img></li>
+    <li><img class=f48 src="Pack.png" onClick="moveToYourList('f48')"></img></li>
+    <li><img class=f49 src="Pack.png" onClick="moveToYourList('f49')"></img></li>
+    <li><img class=f50 src="Pack.png" onClick="moveToYourList('f50')"></img></li>
+    <li><img class=f51 src="Pack.png" onClick="moveToYourList('f51')"></img></li>
+    <li><img class=f52 src="Pack.png" onClick="moveToYourList('f52')"></img></li>
+    <li><img class=f53 src="Pack.png" onClick="moveToYourList('f53')"></img></li>
+    <li><img class=f54 src="Pack.png" onClick="moveToYourList('f54')"></img></li>
+    <li><img class=f55 src="Pack.png" onClick="moveToYourList('f55')"></img></li>
+    <li><img class=f56 src="Pack.png" onClick="moveToYourList('f56')"></img></li>
+    <li><img class=f57 src="Pack.png" onClick="moveToYourList('f57')"></img></li>
+    <li><img class=f58 src="Pack.png" onClick="moveToYourList('f58')"></img></li>
+    <li><img class=f59 src="Pack.png" onClick="moveToYourList('f59')"></img></li>
+    <li><img class=f60 src="Pack.png" onClick="moveToYourList('f60')"></img></li>
+    <li><img class=f61 src="Pack.png" onClick="moveToYourList('f61')"></img></li>
+    <li><img class=f62 src="Pack.png" onClick="moveToYourList('f62')"></img></li>
+    <li><img class=f63 src="Pack.png" onClick="moveToYourList('f63')"></img></li>
+    <li><img class=f64 src="Pack.png" onClick="moveToYourList('f64')"></img></li>
+    <li><img class=f65 src="Pack.png" onClick="moveToYourList('f65')"></img></li>
+    <li><img class=f66 src="Pack.png" onClick="moveToYourList('f66')"></img></li>
+    <li><img class=f67 src="Pack.png" onClick="moveToYourList('f67')"></img></li>
+    <li><img class=f68 src="Pack.png" onClick="moveToYourList('f68')"></img></li>
+    <li><img class=f69 src="Pack.png" onClick="moveToYourList('f69')"></img></li>
+    <li><img class=f70 src="Pack.png" onClick="moveToYourList('f70')"></img></li>
+    <li><img class=f71 src="Pack.png" onClick="moveToYourList('f71')"></img></li>
+    <li><img class=f72 src="Pack.png" onClick="moveToYourList('f72')"></img></li>
+    <li><img class=f73 src="Pack.png" onClick="moveToYourList('f73')"></img></li>
+    <li><img class=f74 src="Pack.png" onClick="moveToYourList('f74')"></img></li>
+    <li><img class=f75 src="Pack.png" onClick="moveToYourList('f75')"></img></li>
+    <li><img class=f76 src="Pack.png" onClick="moveToYourList('f76')"></img></li>
+    <li><img class=f77 src="Pack.png" onClick="moveToYourList('f77')"></img></li>
+    <li><img class=f78 src="Pack.png" onClick="moveToYourList('f78')"></img></li>
+    <li><img class=f79 src="Pack.png" onClick="moveToYourList('f79')"></img></li>
+    <li><img class=f80 src="Pack.png" onClick="moveToYourList('f80')"></img></li>
+    <li><img class=f81 src="Pack.png" onClick="moveToYourList('f81')"></img></li>
+    <li><img class=f82 src="Pack.png" onClick="moveToYourList('f82')"></img></li>
+    <li><img class=f83 src="Pack.png" onClick="moveToYourList('f83')"></img></li>
+    <li><img class=f84 src="Pack.png" onClick="moveToYourList('f84')"></img></li>
+    <li><img class=f85 src="Pack.png" onClick="moveToYourList('f85')"></img></li>
+    <li><img class=f86 src="Pack.png" onClick="moveToYourList('f86')"></img></li>
+    <li><img class=f87 src="Pack.png" onClick="moveToYourList('f87')"></img></li>
+    <li><img class=f88 src="Pack.png" onClick="moveToYourList('f88')"></img></li>
+    <li><img class=f89 src="Pack.png" onClick="moveToYourList('f89')"></img></li>
+    <li><img class=f90 src="Pack.png" onClick="moveToYourList('f90')"></img></li>
+    <li><img class=f91 src="Pack.png" onClick="moveToYourList('f91')"></img></li>
+    <li><img class=f92 src="Pack.png" onClick="moveToYourList('f92')"></img></li>
+    <li><img class=f93 src="Pack.png" onClick="moveToYourList('f93')"></img></li>
+    <li><img class=f94 src="Pack.png" onClick="moveToYourList('f94')"></img></li>
+    <li><img class=f95 src="Pack.png" onClick="moveToYourList('f95')"></img></li>
+    <li><img class=f96 src="Pack.png" onClick="moveToYourList('f96')"></img></li>
+    <li><img class=f97 src="Pack.png" onClick="moveToYourList('f97')"></img></li>
+    <li><img class=f98 src="Pack.png" onClick="moveToYourList('f98')"></img></li>
+    <li><img class=f99 src="Pack.png" onClick="moveToYourList('f99')"></img></li>
+    <li><img class=f100 src="Pack.png" onClick="moveToYourList('f100')"></img></li>
+    <li><img class=f101 src="Pack.png" onClick="moveToYourList('f101')"></img></li>
+    <li><img class=f102 src="Pack.png" onClick="moveToYourList('f102')"></img></li>
+    <li><img class=f103 src="Pack.png" onClick="moveToYourList('f103')"></img></li>
+    <li><img class=f104 src="Pack.png" onClick="moveToYourList('f104')"></img></li>
+    <li><img class=f105 src="Pack.png" onClick="moveToYourList('f105')"></img></li>
+    <li><img class=f106 src="Pack.png" onClick="moveToYourList('f106')"></img></li>
+    <li><img class=f107 src="Pack.png" onClick="moveToYourList('f107')"></img></li>
+    <li><img class=f108 src="Pack.png" onClick="moveToYourList('f108')"></img></li>
+    <li><img class=f109 src="Pack.png" onClick="moveToYourList('f109')"></img></li>
+    <li><img class=f110 src="Pack.png" onClick="moveToYourList('f110')"></img></li>
+    <li><img class=f111 src="Pack.png" onClick="moveToYourList('f111')"></img></li>
+    <li><img class=f112 src="Pack.png" onClick="moveToYourList('f112')"></img></li>
+    <li><img class=f113 src="Pack.png" onClick="moveToYourList('f113')"></img></li>
+    <li><img class=f114 src="Pack.png" onClick="moveToYourList('f114')"></img></li>
+    <li><img class=f115 src="Pack.png" onClick="moveToYourList('f115')"></img></li>
+    <li><img class=f116 src="Pack.png" onClick="moveToYourList('f116')"></img></li>
+    <li><img class=f117 src="Pack.png" onClick="moveToYourList('f117')"></img></li>
+    <li><img class=f118 src="Pack.png" onClick="moveToYourList('f118')"></img></li>
+    <li><img class=f119 src="Pack.png" onClick="moveToYourList('f119')"></img></li>
+    <li><img class=f120 src="Pack.png" onClick="moveToYourList('f120')"></img></li>
+    <li><img class=f121 src="Pack.png" onClick="moveToYourList('f121')"></img></li>
+    <li><img class=f122 src="Pack.png" onClick="moveToYourList('f122')"></img></li>
+    <li><img class=f123 src="Pack.png" onClick="moveToYourList('f123')"></img></li>
+    <li><img class=f124 src="Pack.png" onClick="moveToYourList('f124')"></img></li>
+    <li><img class=f125 src="Pack.png" onClick="moveToYourList('f125')"></img></li>
+    <li><img class=f126 src="Pack.png" onClick="moveToYourList('f126')"></img></li>
+    <li><img class=f127 src="Pack.png" onClick="moveToYourList('f127')"></img></li>
+    <li><img class=f128 src="Pack.png" onClick="moveToYourList('f128')"></img></li>
+    <li><img class=f129 src="Pack.png" onClick="moveToYourList('f129')"></img></li>
+    <li><img class=f130 src="Pack.png" onClick="moveToYourList('f130')"></img></li>
+    <li><img class=f131 src="Pack.png" onClick="moveToYourList('f131')"></img></li>
+    <li><img class=f132 src="Pack.png" onClick="moveToYourList('f132')"></img></li>
+    <li><img class=f133 src="Pack.png" onClick="moveToYourList('f133')"></img></li>
+    <li><img class=f134 src="Pack.png" onClick="moveToYourList('f134')"></img></li>
+    <li><img class=f135 src="Pack.png" onClick="moveToYourList('f135')"></img></li>
+    <li><img class=f136 src="Pack.png" onClick="moveToYourList('f136')"></img></li>
+    <li><img class=f137 src="Pack.png" onClick="moveToYourList('f137')"></img></li>
+    <li><img class=f138 src="Pack.png" onClick="moveToYourList('f138')"></img></li>
+    <li><img class=f139 src="Pack.png" onClick="moveToYourList('f139')"></img></li>
+    <li><img class=f140 src="Pack.png" onClick="moveToYourList('f140')"></img></li>
+    <li><img class=f141 src="Pack.png" onClick="moveToYourList('f141')"></img></li>
+    <li><img class=f142 src="Pack.png" onClick="moveToYourList('f142')"></img></li>
+    <li><img class=f143 src="Pack.png" onClick="moveToYourList('f143')"></img></li>
+    <li><img class=f144 src="Pack.png" onClick="moveToYourList('f144')"></img></li>
+    <li><img class=f145 src="Pack.png" onClick="moveToYourList('f145')"></img></li>
+    <li><img class=f146 src="Pack.png" onClick="moveToYourList('f146')"></img></li>
+    <li><img class=f147 src="Pack.png" onClick="moveToYourList('f147')"></img></li>
+    <li><img class=f148 src="Pack.png" onClick="moveToYourList('f148')"></img></li>
+    <li><img class=f149 src="Pack.png" onClick="moveToYourList('f149')"></img></li>
+    <li><img class=f150 src="Pack.png" onClick="moveToYourList('f150')"></img></li>
+    <li><img class=f151 src="Pack.png" onClick="moveToYourList('f151')"></img></li>
+    <li><img class=f152 src="Pack.png" onClick="moveToYourList('f152')"></img></li>
+    <li><img class=f153 src="Pack.png" onClick="moveToYourList('f153')"></img></li>
+    <li><img class=f154 src="Pack.png" onClick="moveToYourList('f154')"></img></li>
+    <li><img class=f155 src="Pack.png" onClick="moveToYourList('f155')"></img></li>
+    <li><img class=f156 src="Pack.png" onClick="moveToYourList('f156')"></img></li>
+    <li><img class=f157 src="Pack.png" onClick="moveToYourList('f157')"></img></li>
+    <li><img class=f158 src="Pack.png" onClick="moveToYourList('f158')"></img></li>
+    <li><img class=f159 src="Pack.png" onClick="moveToYourList('f159')"></img></li>
+    <li><img class=f160 src="Pack.png" onClick="moveToYourList('f160')"></img></li>
+    <li><img class=f161 src="Pack.png" onClick="moveToYourList('f161')"></img></li>
+    <li><img class=f162 src="Pack.png" onClick="moveToYourList('f162')"></img></li>
+    <li><img class=f163 src="Pack.png" onClick="moveToYourList('f163')"></img></li>
+    <li><img class=f164 src="Pack.png" onClick="moveToYourList('f164')"></img></li>
+    <li><img class=f165 src="Pack.png" onClick="moveToYourList('f165')"></img></li>
+    <li><img class=f166 src="Pack.png" onClick="moveToYourList('f166')"></img></li>
+    <li><img class=f167 src="Pack.png" onClick="moveToYourList('f167')"></img></li>
+    <li><img class=f168 src="Pack.png" onClick="moveToYourList('f168')"></img></li>
+    <li><img class=f169 src="Pack.png" onClick="moveToYourList('f169')"></img></li>
+    <li><img class=f170 src="Pack.png" onClick="moveToYourList('f170')"></img></li>
+    <li><img class=f171 src="Pack.png" onClick="moveToYourList('f171')"></img></li>
+    <li><img class=f172 src="Pack.png" onClick="moveToYourList('f172')"></img></li>
+    <li><img class=f173 src="Pack.png" onClick="moveToYourList('f173')"></img></li>
+    <li><img class=f174 src="Pack.png" onClick="moveToYourList('f174')"></img></li>
+    <li><img class=f175 src="Pack.png" onClick="moveToYourList('f175')"></img></li>
+    <li><img class=f176 src="Pack.png" onClick="moveToYourList('f176')"></img></li>
+    <li><img class=f177 src="Pack.png" onClick="moveToYourList('f177')"></img></li>
+    <li><img class=f178 src="Pack.png" onClick="moveToYourList('f178')"></img></li>
+    <li><img class=f179 src="Pack.png" onClick="moveToYourList('f179')"></img></li>
+    <li><img class=f180 src="Pack.png" onClick="moveToYourList('f180')"></img></li>
+    <li><img class=f181 src="Pack.png" onClick="moveToYourList('f181')"></img></li>
+    <li><img class=f182 src="Pack.png" onClick="moveToYourList('f182')"></img></li>
+    <li><img class=f183 src="Pack.png" onClick="moveToYourList('f183')"></img></li>
+    <li><img class=f184 src="Pack.png" onClick="moveToYourList('f184')"></img></li>
+    <li><img class=f185 src="Pack.png" onClick="moveToYourList('f185')"></img></li>
+    <li><img class=f186 src="Pack.png" onClick="moveToYourList('f186')"></img></li>
+    <li><img class=f187 src="Pack.png" onClick="moveToYourList('f187')"></img></li>
+    <li><img class=f188 src="Pack.png" onClick="moveToYourList('f188')"></img></li>
+    <li><img class=f189 src="Pack.png" onClick="moveToYourList('f189')"></img></li>
+    <li><img class=f190 src="Pack.png" onClick="moveToYourList('f190')"></img></li>
+    <li><img class=f191 src="Pack.png" onClick="moveToYourList('f191')"></img></li>
+    <li><img class=f192 src="Pack.png" onClick="moveToYourList('f192')"></img></li>
+    <li><img class=f193 src="Pack.png" onClick="moveToYourList('f193')"></img></li>
+    <li><img class=f194 src="Pack.png" onClick="moveToYourList('f194')"></img></li>
+    <li><img class=f195 src="Pack.png" onClick="moveToYourList('f195')"></img></li>
+    <li><img class=f196 src="Pack.png" onClick="moveToYourList('f196')"></img></li>
+    <li><img class=f197 src="Pack.png" onClick="moveToYourList('f197')"></img></li>
+    <li><img class=f198 src="Pack.png" onClick="moveToYourList('f198')"></img></li>
+    <li><img class=f199 src="Pack.png" onClick="moveToYourList('f199')"></img></li>
+  </ul>
+
+  <!-- Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="header.js"></script>
+  <script src="collectTrades.js"></script>
+</body>
+
+</html>

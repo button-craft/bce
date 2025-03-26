@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>BUTTON Cards</title>
+  <link rel="icon" type="image/png" href="BC_Icon.png">
+  <link href="header.css" rel="stylesheet" type="text/css" />
+  <link href="home.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  
+  <!-- Header Section -->
+  <div class="logoBack">
+    <a class="logoLink" href="collections.html">
+      <img class="logo" src="BC_Logo.png" alt="Logo">
+    </a>
+    <div class="user-info">
+      <p id="username">User: Loading</p>
+      <p id="token">Pack Tokens: -</p>
+      <button class="logout-button" onclick="handleLogout()">LOGOUT</button>
+    </div>
+  </div>
+  <div class=line></div>
+  <div class="topnav">
+    <a class="active" href="home.html">Pack Store</a>
+    <a href="clicker.html">Clicker</a>
+    <a href="collectAll.html">All Cards</a>
+    <a href="collectSets.html">Sets Checklist</a>
+    <a href="collectTrade.html">Trading</a>
+    <a href="collectCraft.html">Crafting</a>
+    <a href="collectCompare.html">Compare</a>
+    <a href="collectGem.html">DCGem</a>
+    <a href="collectDC.html">DCMetro</a>
+    <a href="collectJig.html">Jig</a>
+    <a href="collectPeach.html">Peach</a>
+    <a href="collectVoid.html">VoidMax</a>
+    <a href="collectZav.html">Zaveeya</a>
+  </div>
+  <div class=line></div>
+
+  <!-- Pack Store Options -->
+  <h1 class="pageTitle">Pack Store</h1>
+  <h2 class="tokenCount">Pack Tokens: -</h2>
+  <div class="pack-options">
+    <div class="pack-option">
+      <h3 id="PackName1">Pack 1 Name</h3>
+      <h4 id="PackDesc1">Pack 1 Description</h4>
+      <img class="pack-image" id="Pack1" alt="Pack 1">
+      <button class="open-pack" onclick="openPack(0)">Open Pack</button>
+    </div>
+  
+    <div class="pack-option">
+      <h3 id="PackName2">Pack 2 Name</h3>
+      <h4 id="PackDesc2">Pack 2 Description</h4>
+      <img class="pack-image" id="Pack2" alt="Pack 2">
+      <button class="open-pack" onclick="openPack(1)">Open Pack</button>
+    </div>
+  
+    <div class="pack-option">
+      <h3 id="PackName3">Pack 3 Name</h3>
+      <h4 id="PackDesc3">Pack 3 Description</h4>
+      <img class="pack-image" id="Pack3" alt="Pack 3">
+      <button class="open-pack" onclick="openPack(2)">Open Pack</button>
+    </div>
+  </div>
+
+  <!-- Pack Opening -->
+  <img class=pack src="Pack.png" onclick="openPack()"></img>
+
+  <!-- Pack Results -->
+  <h2 class=resultTitle><u>Pack Results!</u></h2>
+  <h3 class=resultCards>Cards: </h3>
+  <ul class=resultList>
+    <li><img class=i0 src="Pack.png" onClick="enlargePack('i0')"></img></li>
+    <li><img class=i1 src="Pack.png" onClick="enlargePack('i1')"></img></li>
+    <li><img class=i2 src="Pack.png" onClick="enlargePack('i2')"></img></li>
+    <li><img class=i3 src="Pack.png" onClick="enlargePack('i3')"></img></li>
+    <li><img class=i4 src="Pack.png" onClick="enlargePack('i4')"></img></li>
+    <li><img class=i5 src="Pack.png" onClick="enlargePack('i5')"></img></li>
+    <li><img class=i6 src="Pack.png" onClick="enlargePack('i6')"></img></li>
+    <li><img class=i7 src="Pack.png" onClick="enlargePack('i7')"></img></li>
+    <li><img class=i8 src="Pack.png" onClick="enlargePack('i8')"></img></li>
+    <li><img class=i9 src="Pack.png" onClick="enlargePack('i9')"></img></li>
+  </ul>
+  <br>
+  <button class="resetBtn" onClick="resetPage()">Open Same Pack</button>
+
+  <!-- Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="header.js"></script>
+  <script src="cardStoreInfo.js"></script>
+  <script src="home.js"></script>
+</body>
+</html>

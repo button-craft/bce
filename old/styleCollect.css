@@ -1,0 +1,273 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body{
+  background-color:#00CCEE;
+  text-align:center;
+  margin:0;
+}
+
+.logo{
+  width:60%;
+  float:true;
+  margin-top:10px;
+}
+
+.logoBack{
+  width:100%;
+  height:10%;
+  background-color:white;
+}
+
+.line{
+  width:100%;
+  height:5px;
+  background-color:darkblue;
+}
+
+.pack{
+  margin-top:0px;
+  width:0px;
+  margin-bottom:0px;
+}
+
+body{
+  font-family:Arial;
+  color:darkblue;
+  
+}
+
+.compare{
+  margin-left:10px;
+  margin-bottom:20px;
+  margin-top:20px;
+  border:darkblue 2px solid;
+  padding:5px;
+  border-radius:7px;
+  background-color:blue;
+  color:white;
+  font-weight:bold;
+}
+
+.send{
+  margin-left:10px;
+  margin-bottom:20px;
+  margin-top:20px;
+  border:darkblue 2px solid;
+  padding:5px;
+  border-radius:7px;
+  background-color:blue;
+  color:white;
+  font-weight:bold;
+  display:none;
+}
+
+.resultList{
+  background-color:blue;
+  border:4px darkblue solid;
+  width:95%;
+  padding:0;
+  margin:auto;
+  padding-left:6px;
+  padding-right:6px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.resultList li{
+  width: 106px; 
+  margin:6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+}
+
+.flexMe li img{
+  width: 100%; 
+  height: auto;
+  float:left;
+}
+
+.resultList img{
+  width:0px;
+}
+
+.tradeList,.viewTheirList,.viewYourList{
+  background-color:blue;
+  border:4px darkblue solid;
+  width:95%;
+  padding:0;
+  margin:auto;
+  padding-left:6px;
+  padding-right:6px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.tradeList li,.viewTheirList li,.viewYourList li{
+  width: 106px; 
+  margin:6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+}
+
+.tradeList img,.viewTheirList img,.viewYourList img{
+  width:0px;
+}
+
+.yourList,.myList{
+  background-color:blue;
+  border:4px darkblue solid;
+  width:95%;
+  padding:0;
+  margin:auto;
+  padding-left:6px;
+  padding-right:6px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  display: none;
+}
+
+.yourList li,.myList li{
+  width: 106px; 
+  margin:6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+}
+
+.yourList img,.myList img{
+  width:0px;
+}
+
+.yours{
+  display: none;
+}
+
+.tradeText{
+  display: inline;
+}
+
+.resultTitle{
+  text-align:center;
+  font-size:40px;
+  font-family:Helvetica;
+  color:darkblue;
+  margin-bottom:10px;
+}
+
+
+.resultList2{
+  background-color:blue;
+  border:4px darkblue solid;
+  width:40%;
+  padding:0;
+  margin:auto;
+  float:left;
+  margin-left:2%;
+  padding-left:6px;
+  padding-right:6px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.resultList2 li{
+  width: 106px; 
+  margin:6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.resultList2 img{
+  width:0px;
+}
+
+.aboutMission{
+  font-size:20px;
+  font-weight:bold;
+  font-family:Arial;
+  margin:20px;
+}
+
+.card0{
+  width:100px;
+}
+
+.card1{
+  width:100px;
+  margin-left:6px;
+  margin-right:3px;
+}
+
+.card2{
+  width:100px;
+  margin-left:3px;
+  margin-right:6px;
+}
+
+.card3{
+  width:100px;
+}
+
+.missionReward{
+  width:100px;
+}
+
+.owned{
+  color:#00CCEE;
+}
+
+
+.set{
+/*   background-color:blue;
+  border:4px darkblue solid; */
+  width:95%;
+  padding:0;
+  margin:auto;
+  padding-left:6px;
+  padding-right:6px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.set li{
+  width: 106px; 
+  margin:6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.set img{
+  width:0px;
+}
+
+.selectButton{
+  margin-left:10px;
+  margin-bottom:20px;
+  margin-top:5px;
+  border:darkblue 2px solid;
+  padding:5px;
+  border-radius:7px;
+  background-color:blue;
+  color:white;
+  font-weight:bold;
+}
+
