@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Card Stealer - BUTTON Cards</title>
+  <link rel="icon" type="image/png" href="BC_Icon.png">
+  <link href="collectUser.css" rel="stylesheet" type="text/css" />
+  <link href="header.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body oncontextmenu="return false;">
+
+  <!-- Header Section -->
+  <div class="logoBack">
+    <a class="logoLink" href="home.html">
+      <img class="logo" src="BC_Logo.png" alt="Logo">
+    </a>
+    <div class="user-info">
+      <p id="username">User: Loading</p>
+      <p id="token">Pack Tokens: -</p>
+      <button class="logout-button" onclick="handleLogout()">LOGOUT</button>
+    </div>
+  </div>
+  <div class=line></div>
+  <div class="topnav">
+    <a href="home.html">Pack Store</a>
+    <a href="clicker.html">Clicker</a>
+    <a href="collectAll.html">All Cards</a>
+    <a href="collectSets.html">Sets Checklist</a>
+    <a href="collectTrade.html">Trading</a>
+    <a href="collectCraft.html">Crafting</a>
+    <a href="collectCompare.html">Compare</a>
+    <a class="active" href="cardSteal.html">Card Stealer</a>
+    <a href="collectGem.html">DCGem</a>
+    <a href="collectDC.html">DCMetro</a>
+    <a href="collectJig.html">Jig</a>
+    <a href="collectPeach.html">Peach</a>
+    <a href="collectVoid.html">VoidMax</a>
+    <a href="collectZav.html">Zaveeya</a>
+  </div>
+  <div class=line></div>
+
+  <!-- Enlarged Card -->
+  <img class=large src="Pack.png" onClick="hide()"></img>
+
+  <h2 class=collectionTitle>Card Stealer</h2>
+  <p class="stealDescription">Select a user and steal one of their cards!</p>
+  
+  <select name="stealSelect" class="stealSelect">
+    <option class=s1 value="dc">DCMetro</option>
+    <option class=s2 value="gem">DCGem</option>
+    <option class=s3 value="jig">Jig</option>
+    <option class=s4 value="peach">Peach</option>
+    <option class=s5 value="void">VoidMax</option>
+    <option class=s6 value="zav">Zaveeya</option>
+  </select>
+  <button class=stealButton onClick="loadCards()">View Cards</button>
+  
+  <ul class=collectionList id="stealList">
+    <li><img class=c0 src="Pack.png" onClick="stealCard('c0')"></img></li>
+    <li><img class=c1 src="Pack.png" onClick="stealCard('c1')"></img></li>
+    <li><img class=c2 src="Pack.png" onClick="stealCard('c2')"></img></li>
+    <li><img class=c3 src="Pack.png" onClick="stealCard('c3')"></img></li>
+    <li><img class=c4 src="Pack.png" onClick="stealCard('c4')"></img></li>
+    <li><img class=c5 src="Pack.png" onClick="stealCard('c5')"></img></li>
+    <li><img class=c6 src="Pack.png" onClick="stealCard('c6')"></img></li>
+    <li><img class=c7 src="Pack.png" onClick="stealCard('c7')"></img></li>
+    <li><img class=c8 src="Pack.png" onClick="stealCard('c8')"></img></li>
+    <li><img class=c9 src="Pack.png" onClick="stealCard('c9')"></img></li>
+    <!-- Add more list items for cards as needed -->
+  </ul>
+
+  <!-- Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="header.js"></script>
+  <script src="cardSteal.js"></script>
+</body>
+
+</html>
