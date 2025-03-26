@@ -3,21 +3,10 @@
 // Get current user info
 const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 const currentUsername = currentUser.username.toLowerCase();
-let selectedCards = [];
 let targetUser = '';
 
 // Load the selected user's cards
 async function loadCards() {
-  // Get all card elements that exist in the DOM
-  const cardElements = document.querySelectorAll('[class^="c"]');
-  
-  // Clear any previously displayed cards
-  cardElements.forEach(cardElement => {
-    cardElement.src = "Pack.png";
-    cardElement.style.width = "0px";
-    cardElement.style.border = "0";
-  });
-
   // Get the selected user
   targetUser = document.querySelector(".stealSelect").value;
   
@@ -41,15 +30,23 @@ async function loadCards() {
   const doc = userQuery.docs[0];
   let userCards = doc.data().cards.sort();
   
-  // Display the cards (only up to the number of card elements we have)
-  const maxCards = Math.min(userCards.length, cardElements.length);
-  for (let i = 0; i < maxCards; i++) {
-    let cardResult = document.querySelector(".c" + i);
-    if (cardResult) {
-      cardResult.src = "img/" + userCards[i] + ".png";
-      cardResult.style.width = "110px";
-      cardResult.dataset.cardId = userCards[i]; // Store the card ID for stealing
-    }
+  // Clear the list and rebuild it
+  const stealList = document.getElementById("stealList");
+  stealList.innerHTML = '';
+  
+  // Add cards to the list
+  for (let i = 0; i < userCards.length; i++) {
+    const li = document.createElement('li');
+    const img = document.createElement('img');
+    
+    img.src = "img/" + userCards[i] + ".png";
+    img.className = "c" + i;
+    img.style.width = "110px";
+    img.dataset.cardId = userCards[i];
+    img.onclick = function() { stealCard("c" + i); };
+    
+    li.appendChild(img);
+    stealList.appendChild(li);
   }
 }
 
