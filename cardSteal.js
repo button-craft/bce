@@ -1,10 +1,8 @@
 // Card Stealer Functions
-
 // Get current user info
 const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 const currentUsername = currentUser.username.toLowerCase();
 let targetUser = '';
-
 // Load the selected user's cards
 async function loadCards() {
   // Get the selected user
@@ -15,7 +13,6 @@ async function loadCards() {
     window.alert("You cannot steal cards from yourself!");
     return;
   }
-
   // Get the target user's cards
   const userRef = db.collection('users');
   const userQuery = await userRef
@@ -49,7 +46,6 @@ async function loadCards() {
     stealList.appendChild(li);
   }
 }
-
 // Steal a card when clicked
 async function stealCard(cardClass) {
   const cardElement = document.querySelector("." + cardClass);
@@ -57,6 +53,12 @@ async function stealCard(cardClass) {
   
   if (!cardId) {
     return; // No card to steal
+  }
+  
+  // Check if card is Atlanta (ID "1-3")
+  if (cardId === "1-3") {
+    window.alert("Card 'Atlanta' cannot be stolen at this time.");
+    return;
   }
   
   // Confirm steal
@@ -122,7 +124,6 @@ async function stealCard(cardClass) {
     window.alert("An error occurred while stealing the card. Please try again.");
   }
 }
-
 // Initialize menu
 function loadMenu() {
   // Get the select menu element
@@ -137,6 +138,5 @@ function loadMenu() {
     }
   });
 }
-
 // Call loadMenu on page load
 loadMenu();
