@@ -129,6 +129,10 @@ h3 {
   display: none;
 }
 
+.owned{
+  display:none;
+}
+
 /* ----- Clicker Button ----- */
 .clicker{
   margin: auto;
@@ -145,48 +149,27 @@ h3 {
   background-color: blue;
 }
 
-/* ----- Card Stealer ----- */
-.stealDescription {
-  text-align: center;
-  color: darkblue;
-  margin-bottom: 20px;
-}
-
-.stealSelect {
-  padding: 8px;
-  border-radius: 5px;
-  border: 2px solid darkblue;
-  margin-right: 10px;
-}
-
-.stealButton {
-  margin-bottom: 20px;
-}
-
-#stealList li img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
-  cursor: pointer;
-}
-
-/* Additional Card Stealer Styles */
-#stealList {
-  max-height: 600px;
-  overflow-y: auto;
-  padding: 10px;
-}
-
-#stealList li {
-  display: inline-block;
-  margin: 5px;
-}
-
-#stealList img {
+/* ----- Card Hovering ----- */
+.collectionList li img, 
+.set li img, 
+.tradeList li img, 
+.yourList li img, 
+.resultList li img, 
+.myList li img, 
+.viewYourList li img, 
+.viewTheirList li img {
   transition: transform 0.2s;
 }
 
-#stealList img:hover {
+.collectionList li img:hover, 
+.set li img:hover, 
+.tradeList li img:hover, 
+.yourList li img:hover, 
+.resultList li img:hover, 
+.myList li img:hover, 
+.viewYourList li img:hover, 
+.viewTheirList li img:hover {
   transform: scale(1.05);
   cursor: pointer;
-  border: 2px solid yellow;
+  z-index: 10;
 }
