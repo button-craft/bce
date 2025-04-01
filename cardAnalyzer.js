@@ -23,8 +23,8 @@ async function loadCardData() {
     processCardGroup(R, 'R', Rrarity, Rcount, allCards);
     processCardGroup(E, 'E', Erarity, Ecount, allCards);
     processCardGroup(L, 'L', Lrarity, Lcount, allCards);
-    processCardGroup(V1.concat(V2, V3), 'V', Vrarity, Vcount, allCards);
-    processCardGroup(S1.concat(S2, S3, S4), 'S', Srarity, Scount, allCards);
+    processCardGroup(V3, 'V', Vrarity, Vcount, allCards); // Only include V3
+    processCardGroup(S3.concat(S4), 'S', Srarity, Scount, allCards); // Only include S3 and S4
     
   } catch (error) {
     console.error("Error loading card data:", error);
@@ -33,14 +33,18 @@ async function loadCardData() {
 
 function processCardGroup(cardGroup, rarityLabel, rarityOdds, maxCount, allCards) {
   cardGroup.forEach(card => {
-    const cardCount = countCards(allCards, card);
-    const availability = Math.max(0, maxCount - cardCount);
-    let pullChance = 0;
-    if (availability > 0) {
-      pullChance = (1 / rarityOdds) * 100;
+    // Skip cards starting with S1-, S2-, V1-, V2-
+    if (card.startsWith('S1-') || card.startsWith('S2-') || 
+        card.startsWith('V1-') || card.startsWith('V2-')) {
+      return; // Skip this card
     }
     
+    const cardCount = countCards(allCards, card);
+    const availability = Math.max(0, maxCount - cardCount);
+    
     if (availability > 0) {
+      const adjustedOdds = rarityOdds * (cardCount/maxCount);
+      
       cardDataArray.push({
         id: card,
         rarity: rarityLabel,
@@ -48,7 +52,8 @@ function processCardGroup(cardGroup, rarityLabel, rarityOdds, maxCount, allCards
         currentCount: cardCount,
         maxCount: maxCount,
         availability: availability,
-        pullChance: pullChance
+        pullDifficulty: adjustedOdds,
+        pullDifficultyDisplay: adjustedOdds.toFixed(2)
       });
     }
   });
@@ -63,10 +68,6 @@ function displayCards() {
   cardDataArray.forEach(card => {
     const row = document.createElement('tr');
     
-    const idCell = document.createElement('td');
-    idCell.textContent = card.id;
-    row.appendChild(idCell);
-    
     const imageCell = document.createElement('td');
     const image = document.createElement('img');
     image.src = `img/${card.id}.png`;
@@ -74,23 +75,6 @@ function displayCards() {
     image.onclick = function() { enlarge(card.id); };
     imageCell.appendChild(image);
     row.appendChild(imageCell);
-    
-    const rarityCell = document.createElement('td');
-    rarityCell.textContent = getRarityName(card.rarity);
-    rarityCell.classList.add(`rarity-${card.rarity}`);
-    row.appendChild(rarityCell);
-    
-    const oddsCell = document.createElement('td');
-    oddsCell.textContent = `1/${card.originalOdds} (${(1/card.originalOdds*100).toFixed(2)}%)`;
-    row.appendChild(oddsCell);
-    
-    const countCell = document.createElement('td');
-    countCell.textContent = card.currentCount;
-    row.appendChild(countCell);
-    
-    const maxCell = document.createElement('td');
-    maxCell.textContent = card.maxCount;
-    row.appendChild(maxCell);
     
     const availCell = document.createElement('td');
     const progressBar = document.createElement('div');
@@ -100,15 +84,15 @@ function displayCards() {
     progress.classList.add('progress');
     const percentage = (card.availability / card.maxCount) * 100;
     progress.style.width = `${percentage}%`;
-    progress.textContent = card.availability;
+    progress.textContent = `${card.availability}/${card.maxCount}`;
     
     progressBar.appendChild(progress);
     availCell.appendChild(progressBar);
     row.appendChild(availCell);
     
-    const chanceCell = document.createElement('td');
-    chanceCell.textContent = `${card.pullChance.toFixed(2)}%`;
-    row.appendChild(chanceCell);
+    const difficultyCell = document.createElement('td');
+    difficultyCell.textContent = card.pullDifficultyDisplay;
+    row.appendChild(difficultyCell);
     
     cardListElement.appendChild(row);
   });
@@ -120,28 +104,16 @@ function sortCardData() {
   
   switch(sortMethod) {
     case "easiest":
-      cardDataArray.sort((a, b) => b.pullChance - a.pullChance);
+      cardDataArray.sort((a, b) => a.pullDifficulty - b.pullDifficulty);
       break;
     case "hardest":
-      cardDataArray.sort((a, b) => a.pullChance - b.pullChance);
+      cardDataArray.sort((a, b) => b.pullDifficulty - a.pullDifficulty);
       break;
   }
 }
 
 function sortCards() {
   displayCards();
-}
-
-function getRarityName(rarityCode) {
-  switch(rarityCode) {
-    case 'L': return 'Legendary';
-    case 'E': return 'Epic';
-    case 'R': return 'Rare';
-    case 'U': return 'Uncommon';
-    case 'V': return 'Variant';
-    case 'S': return 'Special';
-    default: return rarityCode;
-  }
 }
 
 function countCards(cards, cardId) {
