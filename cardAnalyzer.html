@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Odds - BCE</title>
+  <link rel="icon" type="image/png" href="BC_Icon.png">
+  <link href="collectUser.css" rel="stylesheet" type="text/css" />
+  <link href="header.css" rel="stylesheet" type="text/css" />
+  <style>
+    .availDescription {
+      text-align: center;
+      color: darkblue;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    
+    .availabilityTable {
+      width: 90%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: #070552ff;
+      border: 6px solid #ffce00ff;
+      border-radius: 5px;
+      color: white;
+    }
+    
+    .availabilityTable th, .availabilityTable td {
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ffce00ff;
+    }
+    
+    .availabilityTable th {
+      background-color: #242c37ff;
+      font-weight: bold;
+    }
+    
+    .availabilityTable tr:hover {
+      background-color: #242c37ff;
+    }
+    
+    .card-image {
+      width: 60px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    
+    .card-image:hover {
+      transform: scale(1.2);
+    }
+    
+    .rarity-L {
+      color: gold;
+    }
+    
+    .rarity-E {
+      color: #dd99ff;
+    }
+    
+    .rarity-R {
+      color: #99ccff;
+    }
+    
+    .rarity-U {
+      color: #99ff99;
+    }
+    
+    .rarity-V, .rarity-S {
+      color: orange;
+    }
+    
+    .progress-bar {
+      width: 100%;
+      background-color: #333;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .progress {
+      height: 20px;
+      background-color: #4CAF50;
+      text-align: center;
+      line-height: 20px;
+      color: white;
+    }
+  </style>
+</head>
+
+<body oncontextmenu="return false;">
+  <div class="logoBack">
+    <a class="logoLink" href="home.html">
+      <img class="logo" src="BC_Logo.png" alt="Logo">
+    </a>
+    <div class="user-info">
+      <p id="username">User: Loading</p>
+      <p id="token">Pack Tokens: -</p>
+      <button class="logout-button" onclick="handleLogout()">LOGOUT</button>
+    </div>
+  </div>
+  <div class=line></div>
+  <div class="topnav">
+    <a class="active" href="cardAnalyzer.html">Card Odds</a>
+    <a href="collectGem.html">DCGem</a>
+    <a href="collectDC.html">DCMetro</a>
+    <a href="collectJig.html">Jig</a>
+    <a href="collectPeach.html">Peach</a>
+    <a href="collectVoid.html">VoidMax</a>
+    <a href="collectZav.html">Zaveeya</a>
+  </div>
+  <div class=line></div>
+
+  <img class=large src="Pack.png" onClick="hide()"></img>
+
+  <h2 class=collectionTitle>Card Availability</h2>
+  <p class="availDescription">What are you gonna pull from your next pack?</p>
+  
+  <select name="sortSelect" class="sortSelect">
+    <option class=s1 value="easiest">Most likely</option>
+    <option class=s2 value="hardest">Least likely</option>
+  </select>
+  <button class=sortButton onClick="sortCards()">Sort</button>
+  
+  <table class="availabilityTable">
+    <thead>
+      <tr>
+        <th>Card</th>
+        <th>Image</th>
+        <th>Rarity</th>
+        <th>Original Odds</th>
+        <th>Current Count</th>
+        <th>Max Count</th>
+        <th>Availability</th>
+        <th>Pull Chance</th>
+      </tr>
+    </thead>
+    <tbody id="cardList">
+    </tbody>
+  </table>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="header.js"></script>
+  <script src="cardStoreInfo.js"></script>
+  <script src="cardAnalyzer.js"></script>
+</body>
+
+</html>
