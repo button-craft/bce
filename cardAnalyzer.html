@@ -17,7 +17,8 @@
     }
     
     .availabilityTable {
-      width: 90%;
+      width: 95%;
+      max-width: 1200px;
       margin: 20px auto;
       border-collapse: collapse;
       background-color: #070552ff;
@@ -27,7 +28,7 @@
     }
     
     .availabilityTable th, .availabilityTable td {
-      padding: 10px;
+      padding: 12px;
       text-align: center;
       border: 1px solid #ffce00ff;
     }
@@ -42,33 +43,14 @@
     }
     
     .card-image {
-      width: 60px;
+      width: 100px;
+      height: auto;
       cursor: pointer;
       transition: transform 0.2s;
     }
     
     .card-image:hover {
       transform: scale(1.2);
-    }
-    
-    .rarity-L {
-      color: gold;
-    }
-    
-    .rarity-E {
-      color: #dd99ff;
-    }
-    
-    .rarity-R {
-      color: #99ccff;
-    }
-    
-    .rarity-U {
-      color: #99ff99;
-    }
-    
-    .rarity-V, .rarity-S {
-      color: orange;
     }
     
     .progress-bar {
@@ -79,11 +61,21 @@
     }
     
     .progress {
-      height: 20px;
+      height: 24px;
       background-color: #4CAF50;
       text-align: center;
-      line-height: 20px;
+      line-height: 24px;
       color: white;
+      font-weight: bold;
+    }
+    
+    @media screen and (max-width: 768px) {
+      .availabilityTable {
+        width: 98%;
+      }
+      .card-image {
+        width: 80px;
+      }
     }
   </style>
 </head>
@@ -101,7 +93,7 @@
   </div>
   <div class=line></div>
   <div class="topnav">
-    <a class="active" href="cardAnalyzer.html">Card Odds</a>
+    <a class="active" href="cardAnalyzer.html">Card Availability</a>
     <a href="collectGem.html">DCGem</a>
     <a href="collectDC.html">DCMetro</a>
     <a href="collectJig.html">Jig</a>
@@ -114,11 +106,11 @@
   <img class=large src="Pack.png" onClick="hide()"></img>
 
   <h2 class=collectionTitle>Card Availability</h2>
-  <p class="availDescription">What are you gonna pull from your next pack?</p>
+  <p class="availDescription">What will you pull from your next pack?</p>
   
   <select name="sortSelect" class="sortSelect">
     <option class=s1 value="easiest">Most likely</option>
-    <option class=s2 value="hardest">Least likely</option>
+    <option class=s2 value="hardest">Least Liikely</option>
   </select>
   <button class=sortButton onClick="sortCards()">Sort</button>
   
@@ -126,13 +118,8 @@
     <thead>
       <tr>
         <th>Card</th>
-        <th>Image</th>
-        <th>Rarity</th>
-        <th>Original Odds</th>
-        <th>Current Count</th>
-        <th>Max Count</th>
         <th>Availability</th>
-        <th>Pull Chance</th>
+        <th>Odds</th>
       </tr>
     </thead>
     <tbody id="cardList">
