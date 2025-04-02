@@ -41,15 +41,18 @@ function processCardGroup(cardGroup, rarityLabel, rarityOdds, maxCount, allCards
     const cardCount = countCards(allCards, card);
     const availability = Math.max(0, maxCount - cardCount);
     
-    // IMPORTANT FIX: Calculate true pull chance correctly
+    // Calculate true pull chance correctly
     // Base chance of pulling the specific card IF that rarity is selected
     const baseCardChance = 1 / cardGroup.length;
     
     // Chance of pulling this rarity in the first place
     const rarityChance = 1 / rarityOdds;
     
-    // Combine them for true pull chance
-    const pullChance = availability > 0 ? rarityChance * baseCardChance : 0;
+    // Adjust for availability - the more available, the better your chances
+    const availabilityFactor = availability > 0 ? availability / maxCount : 0;
+    
+    // Combine for true pull chance
+    const pullChance = rarityChance * baseCardChance * availabilityFactor;
     
     // Display odds as 1 in X
     const pullOdds = pullChance > 0 ? Math.round(1 / pullChance) : Infinity;
@@ -62,6 +65,7 @@ function processCardGroup(cardGroup, rarityLabel, rarityOdds, maxCount, allCards
       currentCount: cardCount,
       maxCount: maxCount,
       availability: availability,
+      availabilityFactor: availabilityFactor,
       pullChance: pullChance,
       pullOdds: pullOdds,
       available: availability > 0
@@ -75,25 +79,18 @@ function displayCards() {
   const cardListElement = document.getElementById('cardList');
   cardListElement.innerHTML = '';
   
-  // Filter first to count cards
-  let displayableCards = cardDataArray.filter(card => 
-    sortMethod === "hardest" || card.availability > 0
-  );
-  
-  let displayCount = Math.min(displayableCards.length, 50); // Limit to top 50
-  
   // Add a count display at the top of the table
   const headerRow = document.createElement('tr');
   const headerCell = document.createElement('td');
   headerCell.colSpan = 3;
   headerCell.style.backgroundColor = "#242c37ff";
   headerCell.style.textAlign = "center";
-  headerCell.innerHTML = `<strong>Showing ${displayCount} cards out of ${cardDataArray.length} total</strong>`;
+  headerCell.innerHTML = `<strong>Showing all ${cardDataArray.length} cards sorted by ${sortMethod === "easiest" ? "easiest" : "hardest"} to pull</strong>`;
   headerRow.appendChild(headerCell);
   cardListElement.appendChild(headerRow);
   
-  // Display the filtered and sorted cards
-  displayableCards.slice(0, displayCount).forEach((card, index) => {
+  // Display all cards
+  cardDataArray.forEach((card, index) => {
     const row = document.createElement('tr');
     
     const imageCell = document.createElement('td');
@@ -141,7 +138,7 @@ function displayCards() {
     
     const difficultyCell = document.createElement('td');
     const oddsText = card.availability > 0 ? `1 in ${card.pullOdds}` : "N/A";
-    const rankText = sortMethod === "easiest" ? `#${index + 1}` : `#${displayCount - index}`;
+    const rankText = `#${index + 1}`;
     difficultyCell.innerHTML = `<strong>${oddsText}</strong><br><small>${rankText}</small>`;
     row.appendChild(difficultyCell);
     
@@ -155,13 +152,25 @@ function sortCardData() {
   
   switch(sortMethod) {
     case "easiest":
-      cardDataArray.sort((a, b) => b.pullChance - a.pullChance);
-      break;
-    case "hardest":
+      // First sort by availability (0 or not)
       cardDataArray.sort((a, b) => {
-        // For hardest, show cards with 0 availability at the end
+        // First sort by availability
         if (a.availability === 0 && b.availability > 0) return 1;
         if (b.availability === 0 && a.availability > 0) return -1;
+        
+        // Then by pull chance (higher is easier)
+        return b.pullChance - a.pullChance;
+      });
+      break;
+      
+    case "hardest":
+      // First sort by availability (0 or not)
+      cardDataArray.sort((a, b) => {
+        // First sort by availability
+        if (a.availability === 0 && b.availability > 0) return 1;
+        if (b.availability === 0 && a.availability > 0) return -1;
+        
+        // Then by pull chance (lower is harder)
         return a.pullChance - b.pullChance;
       });
       break;
