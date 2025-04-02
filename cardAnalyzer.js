@@ -2,9 +2,6 @@ let cardDataArray = [];
 let sortMethod = "easiest";
 let availableCardCounts = {}; // To track count of different available cards per rarity
 
-// Define S5 cards
-let S5 = ["S5-1", "S5-2", "S5-3", "S5-4", "S5-5", "S5-6", "S5-7", "S5-8", "S9-2"];
-
 async function initPage() {
   await loadCardData();
   displayCards();
