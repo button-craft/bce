@@ -1,5 +1,6 @@
 let cardDataArray = [];
 let sortMethod = "easiest";
+let rarityAvailability = {}; // To track total availability by rarity
 
 async function initPage() {
   await loadCardData();
@@ -18,7 +19,17 @@ async function loadCardData() {
       allQuery.docs[5].data().cards);
     
     cardDataArray = [];
+    rarityAvailability = { 'U': 0, 'R': 0, 'E': 0, 'L': 0, 'V': 0, 'S': 0 };
     
+    // First pass: collect availability data for each rarity
+    collectRarityAvailability(U, 'U', Ucount, allCards);
+    collectRarityAvailability(R, 'R', Rcount, allCards);
+    collectRarityAvailability(E, 'E', Ecount, allCards);
+    collectRarityAvailability(L, 'L', Lcount, allCards);
+    collectRarityAvailability(V3, 'V', Vcount, allCards);
+    collectRarityAvailability(S3.concat(S4), 'S', Scount, allCards);
+    
+    // Second pass: process cards with proper formula
     processCardGroup(U, 'U', Urarity, Ucount, allCards);
     processCardGroup(R, 'R', Rrarity, Rcount, allCards);
     processCardGroup(E, 'E', Erarity, Ecount, allCards);
@@ -31,6 +42,20 @@ async function loadCardData() {
   }
 }
 
+// Collect rarity availability data
+function collectRarityAvailability(cardGroup, rarityLabel, maxCount, allCards) {
+  cardGroup.forEach(card => {
+    if (card.startsWith('S1-') || card.startsWith('S2-') || 
+        card.startsWith('V1-') || card.startsWith('V2-')) {
+      return;
+    }
+    
+    const cardCount = countCards(allCards, card);
+    const availability = Math.max(0, maxCount - cardCount);
+    rarityAvailability[rarityLabel] += availability;
+  });
+}
+
 function processCardGroup(cardGroup, rarityLabel, rarityOdds, maxCount, allCards) {
   cardGroup.forEach(card => {
     if (card.startsWith('S1-') || card.startsWith('S2-') || 
@@ -41,11 +66,12 @@ function processCardGroup(cardGroup, rarityLabel, rarityOdds, maxCount, allCards
     const cardCount = countCards(allCards, card);
     const availability = Math.max(0, maxCount - cardCount);
     
-    // Calculate true pull chance correctly
-    const baseCardChance = 1 / cardGroup.length;
-    const rarityChance = 1 / rarityOdds;
-    const availabilityFactor = availability > 0 ? availability / maxCount : 0;
-    const pullChance = rarityChance * baseCardChance * availabilityFactor;
+    // Apply the exact formula:
+    // 1/(rarity chance) * (amt of card available) / (amt of individual cards available in that rarity group)
+    let pullChance = 0;
+    if (availability > 0 && rarityAvailability[rarityLabel] > 0) {
+      pullChance = (1/rarityOdds) * (availability / rarityAvailability[rarityLabel]);
+    }
     
     cardDataArray.push({
       id: card,
