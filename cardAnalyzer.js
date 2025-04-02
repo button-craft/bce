@@ -19,29 +19,12 @@ async function loadCardData() {
     
     cardDataArray = [];
     
-    // Log the card arrays to check their content
-    console.log("Uncommon cards:", U.length);
-    console.log("Rare cards:", R.length);
-    console.log("Epic cards:", E.length);
-    console.log("Legendary cards:", L.length);
-    console.log("V3 cards:", V3.length);
-    console.log("S3+S4 cards:", S3.concat(S4).length);
-    
     processCardGroup(U, 'U', Urarity, Ucount, allCards);
     processCardGroup(R, 'R', Rrarity, Rcount, allCards);
     processCardGroup(E, 'E', Erarity, Ecount, allCards);
     processCardGroup(L, 'L', Lrarity, Lcount, allCards);
     processCardGroup(V3, 'V', Vrarity, Vcount, allCards);
     processCardGroup(S3.concat(S4), 'S', Srarity, Scount, allCards);
-    
-    console.log("Cards processed:", cardDataArray.length);
-    console.log("Cards by rarity:", 
-                "U:", cardDataArray.filter(c => c.rarity === 'U').length,
-                "R:", cardDataArray.filter(c => c.rarity === 'R').length,
-                "E:", cardDataArray.filter(c => c.rarity === 'E').length,
-                "L:", cardDataArray.filter(c => c.rarity === 'L').length,
-                "V:", cardDataArray.filter(c => c.rarity === 'V').length,
-                "S:", cardDataArray.filter(c => c.rarity === 'S').length);
     
   } catch (error) {
     console.error("Error loading card data:", error);
@@ -58,13 +41,23 @@ function processCardGroup(cardGroup, rarityLabel, rarityOdds, maxCount, allCards
     const cardCount = countCards(allCards, card);
     const availability = Math.max(0, maxCount - cardCount);
     
-    // Include cards even if availability is 0, but add a flag
-    const pullChance = (availability > 0) ? (1/rarityOdds) * (availability/maxCount) : 0;
-    const pullOdds = (pullChance > 0) ? Math.round(1/pullChance) : Infinity;
+    // IMPORTANT FIX: Calculate true pull chance correctly
+    // Base chance of pulling the specific card IF that rarity is selected
+    const baseCardChance = 1 / cardGroup.length;
+    
+    // Chance of pulling this rarity in the first place
+    const rarityChance = 1 / rarityOdds;
+    
+    // Combine them for true pull chance
+    const pullChance = availability > 0 ? rarityChance * baseCardChance : 0;
+    
+    // Display odds as 1 in X
+    const pullOdds = pullChance > 0 ? Math.round(1 / pullChance) : Infinity;
     
     cardDataArray.push({
       id: card,
       rarity: rarityLabel,
+      rarityName: getRarityName(rarityLabel),
       originalOdds: rarityOdds,
       currentCount: cardCount,
       maxCount: maxCount,
@@ -82,18 +75,25 @@ function displayCards() {
   const cardListElement = document.getElementById('cardList');
   cardListElement.innerHTML = '';
   
-  // Count cards by rarity being displayed
-  let displayedCards = {U: 0, R: 0, E: 0, L: 0, V: 0, S: 0};
+  // Filter first to count cards
+  let displayableCards = cardDataArray.filter(card => 
+    sortMethod === "hardest" || card.availability > 0
+  );
   
-  cardDataArray.forEach(card => {
-    // Skip cards with zero availability only when in "easiest" mode
-    if (sortMethod === "easiest" && card.availability === 0) {
-      return;
-    }
-    
-    // Count cards by rarity being displayed
-    displayedCards[card.rarity]++;
-    
+  let displayCount = Math.min(displayableCards.length, 50); // Limit to top 50
+  
+  // Add a count display at the top of the table
+  const headerRow = document.createElement('tr');
+  const headerCell = document.createElement('td');
+  headerCell.colSpan = 3;
+  headerCell.style.backgroundColor = "#242c37ff";
+  headerCell.style.textAlign = "center";
+  headerCell.innerHTML = `<strong>Showing ${displayCount} cards out of ${cardDataArray.length} total</strong>`;
+  headerRow.appendChild(headerCell);
+  cardListElement.appendChild(headerRow);
+  
+  // Display the filtered and sorted cards
+  displayableCards.slice(0, displayCount).forEach((card, index) => {
     const row = document.createElement('tr');
     
     const imageCell = document.createElement('td');
@@ -102,6 +102,11 @@ function displayCards() {
     image.classList.add('card-image');
     image.onclick = function() { enlarge(card.id); };
     
+    const cardText = document.createElement('div');
+    cardText.style.fontSize = "12px";
+    cardText.style.marginTop = "5px";
+    cardText.innerHTML = `<strong>${card.id}</strong><br>${card.rarityName}`;
+    
     // Apply grayscale to cards with 0 availability
     if (card.availability === 0) {
       image.style.filter = "grayscale(100%)";
@@ -109,6 +114,7 @@ function displayCards() {
     }
     
     imageCell.appendChild(image);
+    imageCell.appendChild(cardText);
     row.appendChild(imageCell);
     
     const availCell = document.createElement('td');
@@ -134,13 +140,13 @@ function displayCards() {
     row.appendChild(availCell);
     
     const difficultyCell = document.createElement('td');
-    difficultyCell.textContent = card.availability > 0 ? `1 in ${card.pullOdds}` : "N/A";
+    const oddsText = card.availability > 0 ? `1 in ${card.pullOdds}` : "N/A";
+    const rankText = sortMethod === "easiest" ? `#${index + 1}` : `#${displayCount - index}`;
+    difficultyCell.innerHTML = `<strong>${oddsText}</strong><br><small>${rankText}</small>`;
     row.appendChild(difficultyCell);
     
     cardListElement.appendChild(row);
   });
-  
-  console.log("Cards displayed by rarity:", displayedCards);
 }
 
 function sortCardData() {
@@ -164,6 +170,18 @@ function sortCardData() {
 
 function sortCards() {
   displayCards();
+}
+
+function getRarityName(rarityCode) {
+  switch(rarityCode) {
+    case 'L': return 'Legendary';
+    case 'E': return 'Epic';
+    case 'R': return 'Rare';
+    case 'U': return 'Uncommon';
+    case 'V': return 'Variant';
+    case 'S': return 'Special';
+    default: return rarityCode;
+  }
 }
 
 function countCards(cards, cardId) {
