@@ -42,20 +42,10 @@ function processCardGroup(cardGroup, rarityLabel, rarityOdds, maxCount, allCards
     const availability = Math.max(0, maxCount - cardCount);
     
     // Calculate true pull chance correctly
-    // Base chance of pulling the specific card IF that rarity is selected
     const baseCardChance = 1 / cardGroup.length;
-    
-    // Chance of pulling this rarity in the first place
     const rarityChance = 1 / rarityOdds;
-    
-    // Adjust for availability - the more available, the better your chances
     const availabilityFactor = availability > 0 ? availability / maxCount : 0;
-    
-    // Combine for true pull chance
     const pullChance = rarityChance * baseCardChance * availabilityFactor;
-    
-    // Display odds as 1 in X
-    const pullOdds = pullChance > 0 ? Math.round(1 / pullChance) : Infinity;
     
     cardDataArray.push({
       id: card,
@@ -65,10 +55,8 @@ function processCardGroup(cardGroup, rarityLabel, rarityOdds, maxCount, allCards
       currentCount: cardCount,
       maxCount: maxCount,
       availability: availability,
-      availabilityFactor: availabilityFactor,
       pullChance: pullChance,
-      pullOdds: pullOdds,
-      available: availability > 0
+      isOwned: cardCount > 0
     });
   });
 }
@@ -79,7 +67,7 @@ function displayCards() {
   const cardListElement = document.getElementById('cardList');
   cardListElement.innerHTML = '';
   
-  // Add a count display at the top of the table
+  // Add a header row
   const headerRow = document.createElement('tr');
   const headerCell = document.createElement('td');
   headerCell.colSpan = 3;
@@ -95,14 +83,30 @@ function displayCards() {
     
     const imageCell = document.createElement('td');
     const image = document.createElement('img');
-    image.src = `img/${card.id}.png`;
+    
+    // Check if the card is owned by anyone
+    if (card.isOwned) {
+      image.src = `img/${card.id}.png`;
+    } else {
+      image.src = "Back.png"; // Anonymous placeholder
+    }
+    
     image.classList.add('card-image');
-    image.onclick = function() { enlarge(card.id); };
+    image.onclick = function() { 
+      if (card.isOwned) {
+        enlarge(card.id);
+      }
+    };
     
     const cardText = document.createElement('div');
     cardText.style.fontSize = "12px";
     cardText.style.marginTop = "5px";
-    cardText.innerHTML = `<strong>${card.id}</strong><br>${card.rarityName}`;
+    
+    if (card.isOwned) {
+      cardText.innerHTML = `<strong>${card.id}</strong><br>${card.rarityName}`;
+    } else {
+      cardText.innerHTML = `<strong>Anonymous</strong><br>${card.rarityName}`;
+    }
     
     // Apply grayscale to cards with 0 availability
     if (card.availability === 0) {
@@ -136,11 +140,16 @@ function displayCards() {
     availCell.appendChild(progressBar);
     row.appendChild(availCell);
     
-    const difficultyCell = document.createElement('td');
-    const oddsText = card.availability > 0 ? `1 in ${card.pullOdds}` : "N/A";
-    const rankText = `#${index + 1}`;
-    difficultyCell.innerHTML = `<strong>${oddsText}</strong><br><small>${rankText}</small>`;
-    row.appendChild(difficultyCell);
+    const rankCell = document.createElement('td');
+    const rankText = `RANK #${index + 1}`;
+    rankCell.innerHTML = `<strong>${rankText}</strong>`;
+    
+    // Make the rank more prominent
+    rankCell.style.fontSize = "16px";
+    rankCell.style.fontWeight = "bold";
+    rankCell.style.textAlign = "center";
+    
+    row.appendChild(rankCell);
     
     cardListElement.appendChild(row);
   });
