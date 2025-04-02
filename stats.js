@@ -58,16 +58,24 @@ function calculateInventoryValue(cards) {
   let totalValue = 0;
   
   cards.forEach(card => {
-    // Check card type and assign value
-    if (L.includes(card)) {
+    // Check for special endings first
+    if (card.endsWith('-P')) {
+      totalValue += 150; // Prime Award
+    } else if (card.endsWith('-A')) {
+      totalValue += 75;  // Award
+    } else if (card.endsWith('-M')) {
+      totalValue += 100; // Monument
+    }
+    // Then check rarity types
+    else if (L && L.includes(card)) {
       totalValue += 85; // Legendary
-    } else if (E.includes(card)) {
+    } else if (E && E.includes(card)) {
       totalValue += 40; // Epic
-    } else if (R.includes(card)) {
+    } else if (R && R.includes(card)) {
       totalValue += 12; // Rare
-    } else if (U.includes(card)) {
+    } else if (U && U.includes(card)) {
       totalValue += 4;  // Uncommon
-    } else if (C.includes(card)) {
+    } else if (C && C.includes(card)) {
       totalValue += 1;  // Common
     } else if (card.startsWith('V') || card.startsWith('S')) {
       totalValue += 10; // Specials and Variants
@@ -210,7 +218,7 @@ function displayInventoryValueStats() {
     // Add cells to row
     row.appendChild(rankCell);
     row.appendChild(nameCell);
-    row.appendChild(countCell);
+    row.appendChild(valueCell); // Fixed variable name here
     
     // Add row to table
     tableBody.appendChild(row);
