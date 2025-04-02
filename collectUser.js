@@ -396,4 +396,4 @@ function randMission(deck, all) {
   return newMiss;
 }
 
-let newTokens = doc.data().tokens +1;
+doc.data().tokens = doc.data().tokens +1;
