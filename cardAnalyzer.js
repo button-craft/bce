@@ -107,8 +107,29 @@ function displayCards() {
   headerRow.appendChild(headerCell);
   cardListElement.appendChild(headerRow);
   
-  // Display all cards
+  // Assign proper ranks handling ties
+  let currentRank = 1;
+  let previousPullChance = null;
+  let skipCount = 0;
+  
+  // First pass to assign ranks
   cardDataArray.forEach((card, index) => {
+    if (index > 0) {
+      if (card.pullChance !== previousPullChance) {
+        // New rank
+        currentRank += skipCount + 1;
+        skipCount = 0;
+      } else {
+        // Same rank
+        skipCount++;
+      }
+    }
+    card.rank = currentRank;
+    previousPullChance = card.pullChance;
+  });
+  
+  // Display all cards
+  cardDataArray.forEach(card => {
     const row = document.createElement('tr');
     
     const imageCell = document.createElement('td');
@@ -175,7 +196,7 @@ function displayCards() {
     row.appendChild(availCell);
     
     const rankCell = document.createElement('td');
-    const rankText = `RANK #${index + 1}`;
+    const rankText = `RANK #${card.rank}`;
     rankCell.innerHTML = `<strong>${rankText}</strong>`;
     
     // Make the rank more prominent
