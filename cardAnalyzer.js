@@ -2,6 +2,9 @@ let cardDataArray = [];
 let sortMethod = "easiest";
 let availableCardCounts = {}; // To track count of different available cards per rarity
 
+// Define S5 cards
+let S5 = ["S5-1", "S5-2", "S5-3", "S5-4", "S5-5", "S5-6", "S5-7", "S5-8", "S9-2"];
+
 async function initPage() {
   await loadCardData();
   displayCards();
@@ -27,11 +30,7 @@ async function loadCardData() {
     countAvailableCards(E, 'E', Ecount, allCards);
     countAvailableCards(L, 'L', Lcount, allCards);
     countAvailableCards(V3, 'V', Vcount, allCards);
-    
-    // Check if SpeSet exists (from cardStoreInfo.js) and use it for special cards
-    if (typeof SpeSet !== 'undefined') {
-      countAvailableCards(SpeSet, 'S', Scount, allCards);
-    }
+    countAvailableCards(S5, 'S', Scount, allCards);
     
     // Second pass: process cards with proper formula
     processCardGroup(U, 'U', Urarity, Ucount, allCards);
@@ -39,11 +38,7 @@ async function loadCardData() {
     processCardGroup(E, 'E', Erarity, Ecount, allCards);
     processCardGroup(L, 'L', Lrarity, Lcount, allCards);
     processCardGroup(V3, 'V', Vrarity, Vcount, allCards);
-    
-    // Use SpeSet for special cards if it exists
-    if (typeof SpeSet !== 'undefined') {
-      processCardGroup(SpeSet, 'S', Srarity, Scount, allCards);
-    }
+    processCardGroup(S5, 'S', Srarity, Scount, allCards);
     
     console.log("Cards processed:", cardDataArray.length);
     
