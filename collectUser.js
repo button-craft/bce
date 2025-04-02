@@ -395,5 +395,3 @@ function randMission(deck, all) {
 
   return newMiss;
 }
-
-doc.data().tokens = doc.data().tokens +1;
