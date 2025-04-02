@@ -27,7 +27,11 @@ async function loadCardData() {
     countAvailableCards(E, 'E', Ecount, allCards);
     countAvailableCards(L, 'L', Lcount, allCards);
     countAvailableCards(V3, 'V', Vcount, allCards);
-    countAvailableCards(S5, 'S', Scount, allCards);
+    
+    // Check if SpeSet exists (from cardStoreInfo.js) and use it for special cards
+    if (typeof SpeSet !== 'undefined') {
+      countAvailableCards(SpeSet, 'S', Scount, allCards);
+    }
     
     // Second pass: process cards with proper formula
     processCardGroup(U, 'U', Urarity, Ucount, allCards);
@@ -35,7 +39,13 @@ async function loadCardData() {
     processCardGroup(E, 'E', Erarity, Ecount, allCards);
     processCardGroup(L, 'L', Lrarity, Lcount, allCards);
     processCardGroup(V3, 'V', Vrarity, Vcount, allCards);
-    processCardGroup(S5, 'S', Srarity, Scount, allCards);
+    
+    // Use SpeSet for special cards if it exists
+    if (typeof SpeSet !== 'undefined') {
+      processCardGroup(SpeSet, 'S', Srarity, Scount, allCards);
+    }
+    
+    console.log("Cards processed:", cardDataArray.length);
     
   } catch (error) {
     console.error("Error loading card data:", error);
@@ -45,6 +55,7 @@ async function loadCardData() {
 // Count distinct available cards per rarity
 function countAvailableCards(cardGroup, rarityLabel, maxCount, allCards) {
   cardGroup.forEach(card => {
+    // Skip cards from unwanted sets
     if (card.startsWith('S1-') || card.startsWith('S2-') || 
         card.startsWith('V1-') || card.startsWith('V2-') ||
         card.startsWith('S3-') || card.startsWith('S4-')) {
@@ -63,6 +74,7 @@ function countAvailableCards(cardGroup, rarityLabel, maxCount, allCards) {
 
 function processCardGroup(cardGroup, rarityLabel, rarityOdds, maxCount, allCards) {
   cardGroup.forEach(card => {
+    // Skip cards from unwanted sets
     if (card.startsWith('S1-') || card.startsWith('S2-') || 
         card.startsWith('V1-') || card.startsWith('V2-') ||
         card.startsWith('S3-') || card.startsWith('S4-')) {
@@ -108,6 +120,18 @@ function displayCards() {
   headerCell.innerHTML = `<strong>Showing all ${cardDataArray.length} cards sorted by ${sortMethod === "easiest" ? "easiest" : "hardest"} to pull</strong>`;
   headerRow.appendChild(headerCell);
   cardListElement.appendChild(headerRow);
+  
+  // Display message if no cards found
+  if (cardDataArray.length === 0) {
+    const noCardsRow = document.createElement('tr');
+    const noCardsCell = document.createElement('td');
+    noCardsCell.colSpan = 3;
+    noCardsCell.innerHTML = '<strong>No cards found to display</strong>';
+    noCardsCell.style.padding = '20px';
+    noCardsRow.appendChild(noCardsCell);
+    cardListElement.appendChild(noCardsRow);
+    return;
+  }
   
   // Assign proper ranks handling ties
   let currentRank = 1;
