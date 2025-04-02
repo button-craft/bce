@@ -23,8 +23,8 @@ async function loadCardData() {
     processCardGroup(R, 'R', Rrarity, Rcount, allCards);
     processCardGroup(E, 'E', Erarity, Ecount, allCards);
     processCardGroup(L, 'L', Lrarity, Lcount, allCards);
-    processCardGroup(V3, 'V', Vrarity, Vcount, allCards); // Only include V3
-    processCardGroup(S3.concat(S4), 'S', Srarity, Scount, allCards); // Only include S3 and S4
+    processCardGroup(V3, 'V', Vrarity, Vcount, allCards);
+    processCardGroup(S3.concat(S4), 'S', Srarity, Scount, allCards);
     
   } catch (error) {
     console.error("Error loading card data:", error);
@@ -33,17 +33,21 @@ async function loadCardData() {
 
 function processCardGroup(cardGroup, rarityLabel, rarityOdds, maxCount, allCards) {
   cardGroup.forEach(card => {
-    // Skip cards starting with S1-, S2-, V1-, V2-
     if (card.startsWith('S1-') || card.startsWith('S2-') || 
         card.startsWith('V1-') || card.startsWith('V2-')) {
-      return; // Skip this card
+      return;
     }
     
     const cardCount = countCards(allCards, card);
     const availability = Math.max(0, maxCount - cardCount);
     
     if (availability > 0) {
-      const adjustedOdds = rarityOdds * (cardCount/maxCount);
+      // Calculate true pull chance: (1/rarityOdds) * (availability/maxCount)
+      // Higher value = easier to pull
+      const pullChance = (1/rarityOdds) * (availability/maxCount);
+      
+      // For display, show odds as 1 in X
+      const pullOdds = Math.round(1/pullChance);
       
       cardDataArray.push({
         id: card,
@@ -52,8 +56,8 @@ function processCardGroup(cardGroup, rarityLabel, rarityOdds, maxCount, allCards
         currentCount: cardCount,
         maxCount: maxCount,
         availability: availability,
-        pullDifficulty: adjustedOdds,
-        pullDifficultyDisplay: adjustedOdds.toFixed(2)
+        pullChance: pullChance,
+        pullOdds: pullOdds
       });
     }
   });
@@ -91,7 +95,7 @@ function displayCards() {
     row.appendChild(availCell);
     
     const difficultyCell = document.createElement('td');
-    difficultyCell.textContent = card.pullDifficultyDisplay;
+    difficultyCell.textContent = `1 in ${card.pullOdds}`;
     row.appendChild(difficultyCell);
     
     cardListElement.appendChild(row);
@@ -104,10 +108,10 @@ function sortCardData() {
   
   switch(sortMethod) {
     case "easiest":
-      cardDataArray.sort((a, b) => a.pullDifficulty - b.pullDifficulty);
+      cardDataArray.sort((a, b) => b.pullChance - a.pullChance); // Higher pullChance = easier
       break;
     case "hardest":
-      cardDataArray.sort((a, b) => b.pullDifficulty - a.pullDifficulty);
+      cardDataArray.sort((a, b) => a.pullChance - b.pullChance); // Lower pullChance = harder
       break;
   }
 }
