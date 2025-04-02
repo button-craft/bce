@@ -1,6 +1,3 @@
-// Function to modify collectUser.js to handle unlimited cards
-
-// Modified loadCards function
 async function loadCards() {
   const userRef = db.collection('users');
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -76,7 +73,9 @@ async function loadCards() {
     // Check for duplicate cards
     if (userCards[i] == prevCard) {
       let prevCardResult = document.querySelector(`.c${i - 1}`);
-      prevCardResult.style.border = "2px yellow solid";
+      if (prevCardResult) {
+        prevCardResult.style.border = "2px yellow solid";
+      }
       image.style.border = "2px yellow solid";
     } else {
       let curStr = storeCards.splice(i, 1);
@@ -96,14 +95,43 @@ async function loadCards() {
     prevCard = userCards[i];
   }
   
-  // Show a count of total cards
-  const countDisplay = document.createElement('div');
-  countDisplay.style.textAlign = 'center';
-  countDisplay.style.color = 'darkblue';
-  countDisplay.style.marginTop = '10px';
-  countDisplay.style.fontWeight = 'bold';
-  countDisplay.textContent = `Total Cards: ${userCards.length}`;
+  // Update or create the card count display
+  let countDisplay = document.getElementById('cardCount');
+  if (!countDisplay) {
+    countDisplay = document.createElement('div');
+    countDisplay.id = 'cardCount';
+    countDisplay.style.textAlign = 'center';
+    countDisplay.style.color = 'darkblue';
+    countDisplay.style.marginTop = '10px';
+    countDisplay.style.fontWeight = 'bold';
+    
+    // Insert count after the collection list
+    colList.parentNode.insertBefore(countDisplay, colList.nextSibling);
+  }
   
-  // Insert count after the collection list
-  colList.parentNode.insertBefore(countDisplay, colList.nextSibling);
+  // Update the count text
+  countDisplay.textContent = `Total Cards: ${userCards.length}`;
 }
+
+// Call loadCards on page load to automatically sort by "order"
+window.onload = function() {
+  // Set default sort to "num" (order)
+  const sortSelect = document.querySelector(".sortSelect");
+  if (sortSelect) {
+    sortSelect.value = "num";
+  }
+  
+  // First load the user info (from header.js)
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  if (!currentUser) {
+    // If no user is logged in, redirect to login page
+    window.location.href = 'index.html';
+    return;
+  }
+
+  // Then load cards
+  loadCards();
+  
+  // Also check trades (from header.js)
+  checkTrades();
+};
