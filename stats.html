@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Player Statistics - BUTTON Cards</title>
+  <link rel="icon" type="image/png" href="BC_Icon.png">
+  <link href="collectUser.css" rel="stylesheet" type="text/css" />
+  <link href="header.css" rel="stylesheet" type="text/css" />
+  <style>
+    .stats-container {
+      width: 90%;
+      max-width: 800px;
+      margin: 20px auto;
+    }
+    
+    .stats-table {
+      width: 100%;
+      margin: 15px auto;
+      border-collapse: collapse;
+      background-color: #070552ff;
+      border: 6px solid #ffce00ff;
+      border-radius: 5px;
+      color: white;
+    }
+    
+    .stats-table th, .stats-table td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ffce00ff;
+    }
+    
+    .stats-table th {
+      background-color: #242c37ff;
+      font-weight: bold;
+    }
+    
+    .stats-table tr:hover {
+      background-color: #242c37ff;
+    }
+    
+    .section-title {
+      text-align: center;
+      color: darkblue;
+      font-size: 24px;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .tooltip {
+      position: relative;
+      display: inline-block;
+      margin-left: 10px;
+      cursor: help;
+    }
+    
+    .tooltip .icon {
+      background-color: darkblue;
+      color: white;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+    }
+    
+    .tooltip .tooltip-content {
+      visibility: hidden;
+      width: 220px;
+      background-color: #242c37ff;
+      color: white;
+      text-align: left;
+      border-radius: 6px;
+      padding: 10px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -110px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      border: 2px solid #ffce00ff;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    
+    .tooltip:hover .tooltip-content {
+      visibility: visible;
+      opacity: 1;
+    }
+    
+    .medal-1 {
+      color: gold;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .medal-2 {
+      color: silver;
+      font-size: 17px;
+      font-weight: bold;
+    }
+    
+    .medal-3 {
+      color: #cd7f32;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body oncontextmenu="return false;">
+
+  <!-- Header Section -->
+  <div class="logoBack">
+    <a class="logoLink" href="home.html">
+      <img class="logo" src="BC_Logo.png" alt="Logo">
+    </a>
+    <div class="user-info">
+      <p id="username">User: Loading</p>
+      <p id="token">Pack Tokens: -</p>
+      <button class="logout-button" onclick="handleLogout()">LOGOUT</button>
+    </div>
+  </div>
+  <div class=line></div>
+  <div class="topnav">
+    <a href="cardAnalyzer.html">Card Availability</a>
+    <a href="collectGem.html">DCGem</a>
+    <a href="collectDC.html">DCMetro</a>
+    <a href="collectJig.html">Jig</a>
+    <a href="collectPeach.html">Peach</a>
+    <a href="collectVoid.html">VoidMax</a>
+    <a href="collectZav.html">Zaveeya</a>
+    <a class="active" href="stats.html">Stats</a>
+  </div>
+  <div class=line></div>
+
+  <h2 class=collectionTitle>Player Statistics</h2>
+  
+  <div class="stats-container">
+    <!-- Card Count Section -->
+    <div class="section-title">
+      Card Count Rankings
+    </div>
+    <table class="stats-table" id="cardCountTable">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Player</th>
+          <th>Cards</th>
+        </tr>
+      </thead>
+      <tbody id="cardCountBody">
+        <tr><td colspan="3">Loading...</td></tr>
+      </tbody>
+    </table>
+    
+    <!-- Token Count Section -->
+    <div class="section-title">
+      Token Count Rankings
+    </div>
+    <table class="stats-table" id="tokenCountTable">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Player</th>
+          <th>Tokens</th>
+        </tr>
+      </thead>
+      <tbody id="tokenCountBody">
+        <tr><td colspan="3">Loading...</td></tr>
+      </tbody>
+    </table>
+    
+    <!-- Inventory Value Section -->
+    <div class="section-title">
+      Inventory Value Rankings
+      <div class="tooltip">
+        <div class="icon">?</div>
+        <div class="tooltip-content">
+          Card values used for calculation:<br>
+          Common = 1<br>
+          Uncommon = 4<br>
+          Rare = 12<br>
+          Epic = 40<br>
+          Legendary = 85<br>
+          Specials/Variants = 10
+        </div>
+      </div>
+    </div>
+    <table class="stats-table" id="valueTable">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Player</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody id="valueBody">
+        <tr><td colspan="3">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="header.js"></script>
+  <script src="cardStoreInfo.js"></script>
+  <script src="stats.js"></script>
+</body>
+
+</html>
