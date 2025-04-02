@@ -58,13 +58,13 @@ function calculateInventoryValue(cards) {
   let totalValue = 0;
   
   cards.forEach(card => {
-    // Check for special endings first
+    // Check for special cards
     if (card.endsWith('-P')) {
       totalValue += 150; // Prime Award
     } else if (card.endsWith('-A')) {
       totalValue += 75;  // Award
-    } else if (card.endsWith('-M')) {
-      totalValue += 100; // Monument
+    } else if (card.startsWith('V9-')) {
+      totalValue += 100; // Monument (V9 prefix)
     }
     // Then check rarity types
     else if (L && L.includes(card)) {
@@ -78,7 +78,7 @@ function calculateInventoryValue(cards) {
     } else if (C && C.includes(card)) {
       totalValue += 1;  // Common
     } else if (card.startsWith('V') || card.startsWith('S')) {
-      totalValue += 10; // Specials and Variants
+      totalValue += 10; // Other Specials and Variants
     } else {
       totalValue += 1;  // Default to Common for unknown cards
     }
