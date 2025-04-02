@@ -185,18 +185,23 @@ function displayTokenCountStats() {
 
 // Display inventory value rankings
 function displayInventoryValueStats() {
+  // Get the table body element
   const tableBody = document.getElementById('valueBody');
+  
+  // Clear existing content
   tableBody.innerHTML = '';
   
-  // Sort by inventory value (highest to lowest)
+  // Sort players by inventory value (highest to lowest)
   const sortedPlayers = [...playerStats].sort((a, b) => b.inventoryValue - a.inventoryValue);
   
-  // Create table rows
+  // Create and append rows for each player
   sortedPlayers.forEach((player, index) => {
+    // Create a new table row
     const row = document.createElement('tr');
     
-    // Rank cell with medal for top 3
+    // --- RANK CELL ---
     const rankCell = document.createElement('td');
+    // Add medals for top 3
     if (index === 0) {
       rankCell.innerHTML = `<span class="medal-1">🥇 1</span>`;
     } else if (index === 1) {
@@ -206,21 +211,19 @@ function displayInventoryValueStats() {
     } else {
       rankCell.textContent = index + 1;
     }
+    row.appendChild(rankCell);
     
-    // Player name cell
+    // --- NAME CELL ---
     const nameCell = document.createElement('td');
     nameCell.textContent = player.displayName;
+    row.appendChild(nameCell);
     
-    // Inventory value cell
+    // --- VALUE CELL ---
     const valueCell = document.createElement('td');
     valueCell.textContent = player.inventoryValue.toLocaleString();
+    row.appendChild(valueCell);
     
-    // Add cells to row
-    row.appendChild(rankCell);
-    row.appendChild(nameCell);
-    row.appendChild(valueCell); // Fixed variable name here
-    
-    // Add row to table
+    // Add the completed row to the table
     tableBody.appendChild(row);
   });
 }
