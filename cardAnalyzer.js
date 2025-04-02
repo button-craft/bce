@@ -64,7 +64,8 @@ function countAvailableCards(cardGroup, rarityLabel, maxCount, allCards) {
 function processCardGroup(cardGroup, rarityLabel, rarityOdds, maxCount, allCards) {
   cardGroup.forEach(card => {
     if (card.startsWith('S1-') || card.startsWith('S2-') || 
-        card.startsWith('V1-') || card.startsWith('V2-')) {
+        card.startsWith('V1-') || card.startsWith('V2-') ||
+        card.startsWith('S3-') || card.startsWith('S4-')) {
       return;
     }
     
