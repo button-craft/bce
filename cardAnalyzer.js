@@ -1,6 +1,6 @@
 let cardDataArray = [];
 let sortMethod = "easiest";
-let rarityAvailability = {}; // To track total availability by rarity
+let availableCardCounts = {}; // To track count of different available cards per rarity
 
 async function initPage() {
   await loadCardData();
@@ -19,15 +19,15 @@ async function loadCardData() {
       allQuery.docs[5].data().cards);
     
     cardDataArray = [];
-    rarityAvailability = { 'U': 0, 'R': 0, 'E': 0, 'L': 0, 'V': 0, 'S': 0 };
+    availableCardCounts = { 'U': 0, 'R': 0, 'E': 0, 'L': 0, 'V': 0, 'S': 0 };
     
-    // First pass: collect availability data for each rarity
-    collectRarityAvailability(U, 'U', Ucount, allCards);
-    collectRarityAvailability(R, 'R', Rcount, allCards);
-    collectRarityAvailability(E, 'E', Ecount, allCards);
-    collectRarityAvailability(L, 'L', Lcount, allCards);
-    collectRarityAvailability(V3, 'V', Vcount, allCards);
-    collectRarityAvailability(S3.concat(S4), 'S', Scount, allCards);
+    // First pass: count distinct available cards per rarity
+    countAvailableCards(U, 'U', Ucount, allCards);
+    countAvailableCards(R, 'R', Rcount, allCards);
+    countAvailableCards(E, 'E', Ecount, allCards);
+    countAvailableCards(L, 'L', Lcount, allCards);
+    countAvailableCards(V3, 'V', Vcount, allCards);
+    countAvailableCards(S3.concat(S4), 'S', Scount, allCards);
     
     // Second pass: process cards with proper formula
     processCardGroup(U, 'U', Urarity, Ucount, allCards);
@@ -42,8 +42,8 @@ async function loadCardData() {
   }
 }
 
-// Collect rarity availability data
-function collectRarityAvailability(cardGroup, rarityLabel, maxCount, allCards) {
+// Count distinct available cards per rarity
+function countAvailableCards(cardGroup, rarityLabel, maxCount, allCards) {
   cardGroup.forEach(card => {
     if (card.startsWith('S1-') || card.startsWith('S2-') || 
         card.startsWith('V1-') || card.startsWith('V2-')) {
@@ -52,7 +52,11 @@ function collectRarityAvailability(cardGroup, rarityLabel, maxCount, allCards) {
     
     const cardCount = countCards(allCards, card);
     const availability = Math.max(0, maxCount - cardCount);
-    rarityAvailability[rarityLabel] += availability;
+    
+    // If the card is available, increment the counter
+    if (availability > 0) {
+      availableCardCounts[rarityLabel]++;
+    }
   });
 }
 
@@ -66,11 +70,11 @@ function processCardGroup(cardGroup, rarityLabel, rarityOdds, maxCount, allCards
     const cardCount = countCards(allCards, card);
     const availability = Math.max(0, maxCount - cardCount);
     
-    // Apply the exact formula:
-    // 1/(rarity chance) * (amt of card available) / (amt of individual cards available in that rarity group)
+    // Apply the corrected formula:
+    // 1/(rarity chance) * 1/(# of different types of cards within that rarity available)
     let pullChance = 0;
-    if (availability > 0 && rarityAvailability[rarityLabel] > 0) {
-      pullChance = (1/rarityOdds) * (availability / rarityAvailability[rarityLabel]);
+    if (availability > 0 && availableCardCounts[rarityLabel] > 0) {
+      pullChance = (1/rarityOdds) * (1/availableCardCounts[rarityLabel]);
     }
     
     cardDataArray.push({
@@ -160,6 +164,10 @@ function displayCards() {
       const percentage = (card.availability / card.maxCount) * 100;
       progress.style.width = `${percentage}%`;
       progress.textContent = `${card.availability}/${card.maxCount}`;
+      
+      // Color gradient from red (low availability) to green (high availability)
+      const hue = (percentage / 100) * 120; // 0 is red, 120 is green
+      progress.style.backgroundColor = `hsl(${hue}, 80%, 45%)`;
     }
     
     progressBar.appendChild(progress);
