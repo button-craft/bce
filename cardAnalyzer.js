@@ -27,7 +27,7 @@ async function loadCardData() {
     countAvailableCards(E, 'E', Ecount, allCards);
     countAvailableCards(L, 'L', Lcount, allCards);
     countAvailableCards(V3, 'V', Vcount, allCards);
-    countAvailableCards(S5, 'S', Scount, allCards);
+    countAvailableCards(S2, 'S', Scount, allCards);
     
     // Second pass: process cards with proper formula
     processCardGroup(U, 'U', Urarity, Ucount, allCards);
@@ -35,7 +35,7 @@ async function loadCardData() {
     processCardGroup(E, 'E', Erarity, Ecount, allCards);
     processCardGroup(L, 'L', Lrarity, Lcount, allCards);
     processCardGroup(V3, 'V', Vrarity, Vcount, allCards);
-    processCardGroup(S5, 'S', Srarity, Scount, allCards);
+    processCardGroup(S2, 'S', Srarity, Scount, allCards);
     
     console.log("Cards processed:", cardDataArray.length);
     
@@ -48,7 +48,7 @@ async function loadCardData() {
 function countAvailableCards(cardGroup, rarityLabel, maxCount, allCards) {
   cardGroup.forEach(card => {
     // Skip cards from unwanted sets
-    if (card.startsWith('S1-') || card.startsWith('S2-') || 
+    if (card.startsWith('S1-') || card.startsWith('S5-') || 
         card.startsWith('V1-') || card.startsWith('V2-') ||
         card.startsWith('S3-') || card.startsWith('S4-')) {
       return;
@@ -67,7 +67,7 @@ function countAvailableCards(cardGroup, rarityLabel, maxCount, allCards) {
 function processCardGroup(cardGroup, rarityLabel, rarityOdds, maxCount, allCards) {
   cardGroup.forEach(card => {
     // Skip cards from unwanted sets
-    if (card.startsWith('S1-') || card.startsWith('S2-') || 
+    if (card.startsWith('S1-') || card.startsWith('S5-') || 
         card.startsWith('V1-') || card.startsWith('V2-') ||
         card.startsWith('S3-') || card.startsWith('S4-')) {
       return;
