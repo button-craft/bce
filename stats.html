@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Player Statistics - BUTTON Cards</title>
+  <title>Player Statistics - BCE</title>
   <link rel="icon" type="image/png" href="BC_Icon.png">
   <link href="collectUser.css" rel="stylesheet" type="text/css" />
   <link href="header.css" rel="stylesheet" type="text/css" />
@@ -55,7 +55,6 @@
       position: relative;
       display: inline-block;
       margin-left: 10px;
-      cursor: help;
     }
     
     .tooltip .icon {
@@ -68,6 +67,7 @@
       justify-content: center;
       align-items: center;
       font-weight: bold;
+      cursor: pointer;
     }
     
     .tooltip .tooltip-content {
@@ -90,9 +90,17 @@
       line-height: 1.5;
     }
     
-    .tooltip:hover .tooltip-content {
+    .tooltip .tooltip-content.visible {
       visibility: visible;
       opacity: 1;
+    }
+    
+    /* On desktop, still support hover */
+    @media (hover: hover) {
+      .tooltip:hover .tooltip-content {
+        visibility: visible;
+        opacity: 1;
+      }
     }
     
     .medal-1 {
@@ -111,6 +119,26 @@
       color: #cd7f32;
       font-size: 16px;
       font-weight: bold;
+    }
+    
+    .info-restricted-overlay {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+      border-radius: 5px;
+      pointer-events: none;
+    }
+
+    .overlay-message {
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      max-width: 80%;
+      padding: 10px;
     }
   </style>
 </head>
@@ -144,57 +172,22 @@
   <h2 class=collectionTitle>Player Statistics</h2>
   
   <div class="stats-container">
-    <!-- Card Count Section -->
+    <!-- Inventory Value Section (FIRST) -->
     <div class="section-title">
-      Most Cards:
-    </div>
-    <table class="stats-table" id="cardCountTable">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Player</th>
-          <th>Cards</th>
-        </tr>
-      </thead>
-      <tbody id="cardCountBody">
-        <tr><td colspan="3">Loading...</td></tr>
-      </tbody>
-    </table>
-    
-    <!-- Token Count Section -->
-    <div class="section-title">
-      Most Tokens:
-    </div>
-    <table class="stats-table" id="tokenCountTable">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Player</th>
-          <th>Tokens</th>
-        </tr>
-      </thead>
-      <tbody id="tokenCountBody">
-        <tr><td colspan="3">Loading...</td></tr>
-      </tbody>
-    </table>
-    
-    <!-- Inventory Value Section -->
-    <div class="section-title">
-      Most Value:
-      <div class="tooltip">
-        <div class="icon">?</div>
-          <div class="tooltip-content">
-  Card values used for calculation:<br>
-  Common = 1<br>
-  Uncommon = 4<br>
-  Rare = 12<br>
-  Epic = 40<br>
-  Legendary = 85<br>
-  Specials/Variants = 10<br>
-  Award (A) = 75<br>
-  Prime Award (P) = 150<br>
-  Monument (M) = 100
-</div>
+      Most inventory value:
+      <div class="tooltip" id="valueTooltip">
+        <div class="icon" onclick="toggleTooltip('valueTooltip')">?</div>
+        <div class="tooltip-content">
+          Common = 1<br>
+          Uncommon = 4<br>
+          Rare = 12<br>
+          Epic = 40<br>
+          Legendary = 85<br>
+          Specials/Variants = 10<br>
+          Award = 75<br>
+          Prime Award = 150<br>
+          Monument = 100
+        </div>
       </div>
     </div>
     <table class="stats-table" id="valueTable">
@@ -209,6 +202,40 @@
         <tr><td colspan="3">Loading...</td></tr>
       </tbody>
     </table>
+    
+    <!-- Card Count Section (SECOND) -->
+    <div class="section-title">
+      Most cards:
+    </div>
+    <table class="stats-table" id="cardCountTable">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Player</th>
+          <th>Cards</th>
+        </tr>
+      </thead>
+      <tbody id="cardCountBody">
+        <tr><td colspan="3">Loading...</td></tr>
+      </tbody>
+    </table>
+    
+    <!-- Token Count Section (LAST) -->
+    <div class="section-title">
+      Most tokens
+    </div>
+    <table class="stats-table" id="tokenCountTable">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Player</th>
+          <th>Tokens</th>
+        </tr>
+      </thead>
+      <tbody id="tokenCountBody">
+        <tr><td colspan="3">Loading...</td></tr>
+      </tbody>
+    </table>
   </div>
 
   <!-- Scripts -->
@@ -217,6 +244,24 @@
   <script src="header.js"></script>
   <script src="cardStoreInfo.js"></script>
   <script src="stats.js"></script>
+  
+  <script>
+    // Function to toggle tooltip visibility
+    function toggleTooltip(tooltipId) {
+      const tooltip = document.querySelector(`#${tooltipId} .tooltip-content`);
+      tooltip.classList.toggle('visible');
+    }
+    
+    // Close tooltips when clicking elsewhere
+    document.addEventListener('click', function(event) {
+      if (!event.target.closest('.tooltip')) {
+        const tooltips = document.querySelectorAll('.tooltip-content');
+        tooltips.forEach(tooltip => {
+          tooltip.classList.remove('visible');
+        });
+      }
+    });
+  </script>
 </body>
 
 </html>
