@@ -180,13 +180,17 @@ async function craftCards() {
   }
   console.log(currentCards);
 
-  let curTokens = doc.data().tokens;
-  let newTokens = curTokens+1;
-  await doc.ref.update({
-    cards: currentCards,
-    tokens: newTokens
-  });
+  
+  
 
   window.alert("Craft Completed.  +1 Pack Token");
   location.reload();
 }
+
+let curTokens = doc.data().tokens;
+  let newTokens = curTokens+1;
+
+await doc.ref.update({
+    cards: currentCards,
+    tokens: newTokens
+  });
