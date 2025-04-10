@@ -39,17 +39,47 @@
   <img class=large src="Pack.png" onClick="hide()"></img>
   <h3 class=owned></h3>
 
-  <h2 class=collectionTitle>All Sets Checklist</h2>
-  <select name="players" class="players">
-    <option class=p0 value="all">All</option>
-    <option class=p1 value="dc">DCMetro</option>
-    <option class=p2 value="gem">DCGem</option>
-    <option class=p3 value="jig">Jig</option>
-    <option class=p4 value="peach">Peach</option>
-    <option class=p5 value="void">VoidMax</option>
-    <option class=p6 value="zav">Zaveeya</option>
-  </select>
-  <button class=selectButton onClick="loadCards()">View</button>
+ <h2 class=collectionTitle>All Sets Checklist</h2>
+<select name="players" class="players">
+  <option class=p0 value="all">All</option>
+  <option class=p1 value="dc">DCMetro</option>
+  <option class=p2 value="gem">DCGem</option>
+  <option class=p3 value="jig">Jig</option>
+  <option class=p4 value="peach">Peach</option>
+  <option class=p5 value="void">VoidMax</option>
+  <option class=p6 value="zav">Zaveeya</option>
+</select>
+<select name="setSelector" class="setSelector">
+  <option value="all">All Sets</option>
+  <option value="1">Set 01</option>
+  <option value="2">Set 02</option>
+  <option value="3">Set 03</option>
+  <option value="4">Set 04</option>
+  <option value="5">Set 05</option>
+  <option value="6">Set 06</option>
+  <option value="7">Set 07</option>
+  <option value="8">Set 08</option>
+  <option value="9">Set 09</option>
+  <option value="10">Set 10</option>
+  <option value="11">Set 11</option>
+  <option value="12">Set 12</option>
+  <option value="13">Set 13</option>
+  <option value="14">Set 14</option>
+  <option value="15">Set 15</option>
+  <option value="16">Set 16</option>
+  <option value="17">Set V1</option>
+  <option value="18">Set V2</option>
+  <option value="19">Set V3</option>
+  <option value="20">Set V4</option>
+  <option value="21">Set V9</option>
+  <option value="22">Set S1</option>
+  <option value="23">Set S2</option>
+  <option value="24">Set S3</option>
+  <option value="25">Set S4</option>
+  <option value="26">Set S5</option>
+  <option value="27">Set S9</option>
+</select>
+<button class=selectButton onClick="loadSelectedSet()">View</button>
   
   <ul class=collectionList id="sets"></ul>
   <ul class="set s1">
