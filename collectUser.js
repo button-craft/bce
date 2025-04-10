@@ -2,6 +2,12 @@
 
 //Loads the selected set when the View button is clicked
 function loadSelectedSet() {
+  // Hide any unused table elements
+  const unusedTable = document.querySelector(".collectionList");
+  if (unusedTable) {
+    unusedTable.style.display = "none";
+  }
+  
   let allCards;
   let compareCards;
   let filledCards;
@@ -163,9 +169,6 @@ async function loadCards() {
     }
   }
 }
-
-// Remove the automatic loadCards() call that was here previously
-// Instead, we'll call loadSelectedSet() when needed
 
 /*
 //Loads in Cards to List from User's Collection
