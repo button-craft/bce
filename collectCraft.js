@@ -11,7 +11,8 @@ async function loadUserCards() {
         .where('name', '==', currentUsername)
         .get();
   const doc = userQuery.docs[0];
-  Tlist = doc.data().cards.sort();
+  Tlist = doc.data().cards;
+  Tlist = sortByRarity(Tlist.sort());
 
   let noTdupes = [];
   let Tdupes = [];
@@ -190,3 +191,54 @@ async function craftCards() {
   window.alert("Craft Completed.  +1 Pack Token");
   location.reload();
 }
+
+//Sorts array of cards by rarity
+function sortByRarity(arr){
+  const arrayOrder = {
+    C: 0,
+    U: 1,
+    R: 2,
+    E: 3,
+    L: 4
+  };
+  const allArrays = { C, U, R, E, L };
+  
+  const stringToOrderMap = {};
+  for (const [key, array] of Object.entries(allArrays)) {
+      array.forEach((str, idx) => {
+          stringToOrderMap[str] = { order: arrayOrder[key], index: idx };
+      });
+  }
+
+  // Filter the input array to include only strings from C, U, R, E, or L
+  let rarArray = arr.filter(str => stringToOrderMap[str]);
+
+  // Sort the filtered array based on the order of the arrays and index within each array
+  rarArray.sort((a, b) => {
+      const orderA = stringToOrderMap[a].order;
+      const orderB = stringToOrderMap[b].order;
+
+      // First compare by the order of arrays (C first, U second, etc.)
+      if (orderA === orderB) {
+          // If they belong to the same array, compare by their index in that array
+          return stringToOrderMap[a].index - stringToOrderMap[b].index;
+      } else {
+          return orderA - orderB;
+      }
+  });
+
+  const aOrPStrings = arr.filter(str => {
+    return (str.endsWith("A") || str.endsWith("P")) && 
+     !str.startsWith("V") && 
+     !str.startsWith("S");
+  });
+  console.log(arr.sort());
+  console.log(rarArray);
+  console.log(rarArray.length);
+  let newArray = arr.sort().slice(rarArray.length+aOrPStrings.length);
+  console.log(newArray);
+  newArray = rarArray.concat(newArray);
+  newArray = newArray.concat(aOrPStrings);
+  return newArray;
+}
+

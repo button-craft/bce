@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Card Odds - BUTTON Cards</title>
+  <link rel="icon" type="image/png" href="BC_Icon.png">
+  <link href="collectUser.css" rel="stylesheet" type="text/css" />
+  <link href="header.css" rel="stylesheet" type="text/css" />
+  <style>
+    .availDescription {
+      text-align: center;
+      color: darkblue;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    
+    .availabilityTable {
+      width: 95%;
+      max-width: 1200px;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: #070552ff;
+      border: 6px solid #ffce00ff;
+      border-radius: 5px;
+      color: white;
+    }
+    
+    .availabilityTable th, .availabilityTable td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ffce00ff;
+    }
+    
+    .availabilityTable th {
+      background-color: #242c37ff;
+      font-weight: bold;
+    }
+    
+    .availabilityTable tr:hover {
+      background-color: #242c37ff;
+    }
+    
+    .card-image {
+      width: 100px;
+      height: auto;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    
+    .card-image:hover {
+      transform: scale(1.05);
+    }
+    
+    .progress-bar {
+      width: 100%;
+      background-color: #333;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .progress {
+      height: 24px;
+      background-color: #4CAF50;
+      text-align: center;
+      line-height: 24px;
+      color: white;
+      font-weight: bold;
+    }
+    
+    @media screen and (max-width: 768px) {
+      .availabilityTable {
+        width: 98%;
+      }
+      .card-image {
+        width: 80px;
+      }
+    }
+  </style>
+</head>
+
+<body oncontextmenu="return false;">
+  <div class="logoBack">
+    <a class="logoLink" href="home.html">
+      <img class="logo" src="BC_Logo.png" alt="Logo">
+    </a>
+    <div class="user-info">
+      <p id="username">User: Loading</p>
+      <p id="token">Pack Tokens: -</p>
+      <button class="logout-button" onclick="handleLogout()">LOGOUT</button>
+    </div>
+  </div>
+  <div class=line></div>
+  <div class="topnav">
+    <a class="active" href="home.html">Pack Store</a>
+    <a href="clicker.html">Clicker</a>
+    <a href="collectAll.html">All Cards</a>
+    <a href="collectSets.html">Sets</a>
+    <a href="collectMission.html">Mission</a>
+    <a href="collectTrade.html">Trading</a>
+    <a href="collectCraft.html">Crafting</a>
+    <a href="collectCompare.html">Compare</a>
+    <a href="collectGem.html">DCGem</a>
+    <a href="collectDC.html">DCMetro</a>
+    <a href="collectJig.html">Jig</a>
+    <a href="collectPeach.html">Peach</a>
+    <a href="collectVoid.html">VoidMax</a>
+    <a href="collectZav.html">Zaveeya</a>
+  </div>
+  <div class=line></div>
+
+  <img class=large src="Pack.png" onClick="hide()"></img>
+
+  <h2 class=collectionTitle>Cards Available in Packs</h2>
+  
+  <select name="sortSelect" class="sortSelect">
+    <option class=s1 value="easiest">Most Likely</option>
+    <option class=s2 value="hardest">Least Likely</option>
+  </select>
+  <button class=sortButton onClick="sortCards()">Sort</button>
+  
+  <table class="availabilityTable">
+    <thead>
+      <tr>
+        <th>Card</th>
+        <th>Availability</th>
+        <th>Odds</th>
+      </tr>
+    </thead>
+    <tbody id="cardList">
+    </tbody>
+  </table>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+  <script src="header.js"></script>
+  <script src="cardStoreInfo.js"></script>
+  <script src="homeCards.js"></script>
+</body>
+
+</html>

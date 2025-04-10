@@ -1,6 +1,122 @@
 //USER'S COLLECTION FUNCTIONS
 
+async function loadCards() {
+  const userRef = db.collection('users');
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  let prevCard = "";
+  let userCards = [];
 
+  let colList = document.querySelector('.collectionList');
+  let userList = colList.id;
+  if(userList=="all"){
+    awardChecker();
+  }
+  if(userList!=="all" && userList!=="sets" && userList!=="mission"){
+    console.log(userList);
+    const userQuery = await userRef
+          .where('name', '==', userList)
+          .get();
+    const doc = userQuery.docs[0];
+    userCards = doc.data().cards;
+    
+    let sortType = document.querySelector(".sortSelect");
+    if(sortType.value=="num"){
+      userCards=userCards.sort();
+    } else if(sortType.value=="numRev"){
+      userCards=userCards.sort();
+      userCards=userCards.reverse();
+    } else if(sortType.value=="rec"){
+      userCards=userCards.reverse();
+    } else if(sortType.value=="rar"){
+      userCards=sortByRarity(userCards.sort());
+    } else if(sortType.value!=="old"){
+      userCards=userCards.sort();
+    }
+    
+  } else if(userList=="mission"){
+    const missRef = db.collection('mission');
+    const missQuery = await missRef.get();
+    userCards = missQuery.docs[0].data().cards;
+    console.log(userCards);
+  } else{
+    const userQuery = await userRef.get();
+    userCards = userQuery.docs[0].data().cards.concat(
+      userQuery.docs[1].data().cards, 
+      userQuery.docs[2].data().cards, 
+      userQuery.docs[3].data().cards,
+      userQuery.docs[4].data().cards, 
+      userQuery.docs[5].data().cards).sort();
+  }
+  
+  if(userList=="sets"){
+    colList.style.display = "none";
+    loadSets(userCards);
+    return;
+  }
+  console.log(userCards);
+  let storeCards = userCards.slice();
+  
+  // Clear existing cards
+  colList.innerHTML = '';
+  
+  // Dynamically generate card elements for all cards
+  for (let i = 0; i < userCards.length; i++) {
+    // Create new list item and image for each card
+    const listItem = document.createElement('li');
+    const image = document.createElement('img');
+    
+    // Set image properties
+    image.className = `c${i}`;
+    image.src = "img/" + userCards[i] + ".png";
+    image.style.width = "110px";
+    image.style.border = "none";
+    image.setAttribute('onClick', `enlarge('c${i}')`);
+    
+    // Check for duplicate cards
+    if (userCards[i] == prevCard) {
+      let prevCardResult = document.querySelector(`.c${i - 1}`);
+      if (prevCardResult) {
+        prevCardResult.style.border = "2px yellow solid";
+      }
+      image.style.border = "2px yellow solid";
+    } else {
+      let curStr = storeCards.splice(i, 1);
+      if (storeCards.includes(curStr[0])) {
+        console.log(curStr[0]);
+        image.style.border = "2px yellow solid";
+      }
+      storeCards.splice(i, 0, curStr[0]);
+    }
+    
+    // Add image to list item
+    listItem.appendChild(image);
+    
+    // Add list item to collection list
+    colList.appendChild(listItem);
+    
+    prevCard = userCards[i];
+  }
+  
+  // Update or create the card count display
+  let countDisplay = document.getElementById('cardCount');
+  if (!countDisplay) {
+    countDisplay = document.createElement('div');
+    countDisplay.id = 'cardCount';
+    countDisplay.style.textAlign = 'center';
+    countDisplay.style.color = 'darkblue';
+    countDisplay.style.marginTop = '10px';
+    countDisplay.style.fontWeight = 'bold';
+    
+    // Insert count after the collection list
+    colList.parentNode.insertBefore(countDisplay, colList.nextSibling);
+  }
+  
+  // Update the count text
+  countDisplay.textContent = `Total Cards: ${userCards.length}`;
+}
+loadCards();
+
+/*
 //Loads in Cards to List from User's Collection
 async function loadCards() {
   const userRef = db.collection('users');
@@ -10,7 +126,10 @@ async function loadCards() {
 
   let colList = document.querySelector('.collectionList');
   let userList = colList.id;
-  if(userList!=="all" && userList!=="sets"){
+  if(userList=="all"){
+    awardChecker();
+  }
+  if(userList!=="all" && userList!=="sets" && userList!=="mission"){
     console.log(userList);
     const userQuery = await userRef
           .where('name', '==', userList)
@@ -32,6 +151,11 @@ async function loadCards() {
       userCards=userCards.sort();
     }
     
+  } else if(userList=="mission"){
+    const missRef = db.collection('mission');
+    const missQuery = await missRef.get();
+    userCards = missQuery.docs[0].data().cards;
+    console.log(userCards);
   } else{
     const userQuery = await userRef.get();
     userCards = userQuery.docs[0].data().cards.concat(
@@ -72,6 +196,7 @@ async function loadCards() {
   }
 }
 loadCards();
+*/
 
 //Loads All Sets if That Collect Sets Page is Opened
 async function loadSets(allCards) {
@@ -86,8 +211,8 @@ async function loadSets(allCards) {
     filledCards = allCards;
   } else {
     const userQuery = await userRef
-          .where('name', '==', listName.value)
-          .get();
+      .where('name', '==', listName.value)
+      .get();
     
     const doc = userQuery.docs[0];
     compareCards = doc.data().cards.sort();
@@ -141,6 +266,7 @@ function enlarge(card) {
   let showEnlarge = document.querySelector(".large");
   showEnlarge.src = cardImg.src;
   showEnlarge.style.display = "block";
+  addOwned(cardImg.src);
   window.scrollTo(0, 0);
 }
 
@@ -150,6 +276,9 @@ function hide() {
   let hideEnlarge = document.querySelector(".large");
   hideEnlarge.src = "Pack.png";
   hideEnlarge.style.display = "none";
+  let ownText = document.querySelector(".owned");
+  ownText.innerHTML = "";
+  ownText.display = "none";
 }
 
 //Clicker Button
@@ -199,12 +328,313 @@ function getRandomColor() {
 
 //Sorts array of cards by last digit
 function sortByLastDigit(arr) {
-    return arr.sort((a, b) => {
-        const lastCharA = a.slice(-1);
-        const lastCharB = b.slice(-1);
-        const lastDigitA = isNaN(lastCharA) ? 20 : parseInt(lastCharA, 10);
-        const lastDigitB = isNaN(lastCharB) ? 20 : parseInt(lastCharB, 10);
-        return lastDigitA - lastDigitB;
+  return arr.sort((a, b) => {
+    const lastCharA = a.slice(-1);
+    const lastCharB = b.slice(-1);
+    const lastDigitA = isNaN(lastCharA) ? 20 : parseInt(lastCharA, 10);
+    const lastDigitB = isNaN(lastCharB) ? 20 : parseInt(lastCharB, 10);
+    return lastDigitA - lastDigitB;
+  });
+}
+
+function sortByRarity(arr){
+  const arrayOrder = {
+    C: 0,
+    U: 1,
+    R: 2,
+    E: 3,
+    L: 4
+  };
+  const allArrays = { C, U, R, E, L };
+  
+  const stringToOrderMap = {};
+  for (const [key, array] of Object.entries(allArrays)) {
+      array.forEach((str, idx) => {
+          stringToOrderMap[str] = { order: arrayOrder[key], index: idx };
+      });
+  }
+
+  // Filter the input array to include only strings from C, U, R, E, or L
+  let rarArray = arr.filter(str => stringToOrderMap[str]);
+
+  // Sort the filtered array based on the order of the arrays and index within each array
+  rarArray.sort((a, b) => {
+      const orderA = stringToOrderMap[a].order;
+      const orderB = stringToOrderMap[b].order;
+
+      // First compare by the order of arrays (C first, U second, etc.)
+      if (orderA === orderB) {
+          // If they belong to the same array, compare by their index in that array
+          return stringToOrderMap[a].index - stringToOrderMap[b].index;
+      } else {
+          return orderA - orderB;
+      }
+  });
+
+  const aOrPStrings = arr.filter(str => {
+    return (str.endsWith("A") || str.endsWith("P")) && 
+     !str.startsWith("V") && 
+     !str.startsWith("S");
+  });
+  console.log(arr.sort());
+  console.log(rarArray);
+  console.log(rarArray.length);
+  let newArray = arr.sort().slice(rarArray.length+aOrPStrings.length);
+  console.log(newArray);
+  newArray = rarArray.concat(newArray);
+  newArray = newArray.concat(aOrPStrings);
+  return newArray;
+}
+
+/*
+//Checks if an award has been earned and awards it
+async function awardChecker() {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  const userRef = db.collection('users');
+  const userQuery = await userRef
+        .where('name', '==', currentUser.username)
+        .get();
+  const doc = userQuery.docs[0];
+  let userCards = doc.data().cards;
+  let newTokens = doc.data().tokens;
+
+  const allQuery = await userRef.get();
+  let allCards = allQuery.docs[0].data().cards.concat(
+    allQuery.docs[1].data().cards, 
+    allQuery.docs[2].data().cards, 
+    allQuery.docs[3].data().cards,
+    allQuery.docs[4].data().cards, 
+    allQuery.docs[5].data().cards).sort();
+  
+  let awarded=false;
+  for (let i = 1; i < awardSets.length; i++) {
+    let list = awardSets[i];
+
+    // Filter out items ending in A or P
+    let requiredCards = list.filter(card => !card.endsWith('A') && !card.endsWith('P'));
+
+    // Check if userCards contains all requiredCards
+    let containsAll = requiredCards.every(card => userCards.includes(card));
+    let cardWithoutAorP = requiredCards[0].slice(0, -2); // Remove -1, -2, etc.
+
+    if (containsAll) {
+      awarded=true;
+      console.log("Set awarded: " + i);
+      // Remove the required cards from userCards
+      userCards = userCards.filter(card => {
+          if (requiredCards.includes(card)) {
+              requiredCards = requiredCards.filter(requiredCard => requiredCard !== card);
+              return false;
+          }
+          return true;
+      });
+
+      // Check if the -P card is already in allCards
+      let minusPCard = cardWithoutAorP + '-P';
+      let minusACard = cardWithoutAorP + '-A';
+
+      newTokens=newTokens+2;
+      if (!allCards.includes(minusPCard)&&awardSets[i].includes(minusPCard)) {
+        console.log("Award P");
+        // Add the -P card to userCards if not in allCards
+        userCards.push(minusPCard);
+        alert("Prime Award earned! +2 Tokens");
+      } else {
+        console.log("Award A");
+        // Add the -A card to userCards if the -P card is already in allCards
+        userCards.push(minusACard);
+        alert("Award earned! +2 Tokens");
+      }
+    }
+  }
+  if(awarded){
+    console.log("awarding");
+    await doc.ref.update({
+      cards: userCards,
+      tokens: newTokens
     });
+  }
+}*/
+
+//Checks if an award has been earned and awards it
+async function awardChecker() {
+  
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  const userRef = db.collection('users');
+  const userQuery = await userRef
+        .where('name', '==', currentUser.username)
+        .get();
+  const doc = userQuery.docs[0];
+  let userCards = doc.data().cards;
+
+  const allQuery = await userRef.get();
+  let allCards = allQuery.docs[0].data().cards.concat(
+    allQuery.docs[1].data().cards, 
+    allQuery.docs[2].data().cards, 
+    allQuery.docs[3].data().cards,
+    allQuery.docs[4].data().cards, 
+    allQuery.docs[5].data().cards).sort();
+  
+  let awarded=false;
+  let curCards=allQuery.docs[0].cards;
+  for (let i = 0; i < awardSets.length; i++) {
+    // Loop through all users to check if they need awards
+    for(let num = 0; num < 6; num++){
+      let list = awardSets[i];
+      let newTokens=allQuery.docs[num].data().tokens;
+      // Filter out items ending in A or P
+      let requiredCards = list.filter(card => !card.endsWith('A') && !card.endsWith('P'));
+      
+      curCards=allQuery.docs[num].data().cards;
+      console.log(allQuery.docs[num].data().name + " " + num);
+      // Check if current User's Cards contains all requiredCards
+      let containsAll = requiredCards.every(card => curCards.includes(card));
+      let cardWithoutAorP = requiredCards[0].slice(0, -2); // Remove -1, -2, etc.
+  
+      if (containsAll) {
+        awarded=true;
+        console.log("Set awarded: " + i);
+        // Remove the required cards from the current User's Cards
+        curCards = curCards.filter(card => {
+            if (requiredCards.includes(card)) {
+                requiredCards = requiredCards.filter(requiredCard => requiredCard !== card);
+                return false;
+            }
+            return true;
+        });
+  
+        // Check if the -P card is already in allCards
+        let minusPCard = cardWithoutAorP + '-P';
+        let minusACard = cardWithoutAorP + '-A';
+  
+        newTokens=newTokens+3;
+        let curName=allQuery.docs[num].data().fullName;
+        if (!allCards.includes(minusPCard)&&awardSets[i].includes(minusPCard)) {
+          console.log("Award P " + minusPCard);
+          // Add the -P card to curCards if not in allCards
+          curCards.push(minusPCard);
+          alert("Set " + cardWithoutAorP + " Prime Award & 3 Tokens earned for " + curName + "!");
+        } else {
+          console.log("Award A " + minusACard);
+          // Add the -A card to curCards if the -P card is already in allCards
+          curCards.push(minusACard);
+          alert("Set " + cardWithoutAorP + " Award & 3 Tokens earned for " + curName + "!");
+        }
+        
+        const docAll = allQuery.docs[num];
+        await docAll.ref.update({
+          cards: curCards,
+          tokens: newTokens
+        });
+      }
+    }
+  }
+}
+
+
+async function addOwned(cardSrc){
+  
+  const userRef = db.collection('users');
+  const allQuery = await userRef.get();
+  let ownText = document.querySelector(".owned");
+  ownText.style.display = "block";
+  ownText.innerHTML = "";
+  let cutSrc = cardSrc.split("img/")[1].replace(".png", "");
+
+  console.log("cards" + (allQuery.docs[0].data().cards) + " - " + cutSrc);
+  if ((allQuery.docs[0].data().cards).includes(cutSrc)) {
+    ownText.innerHTML += "DCGem, ";
+  }
+  if ((allQuery.docs[1].data().cards).includes(cutSrc)) {
+    ownText.innerHTML += "DCMetro, ";
+  }
+  if ((allQuery.docs[2].data().cards).includes(cutSrc)) {
+    ownText.innerHTML += "Jig, ";
+  }
+  if ((allQuery.docs[3].data().cards).includes(cutSrc)) {
+    ownText.innerHTML += "Peach, ";
+  }
+  if ((allQuery.docs[4].data().cards).includes(cutSrc)) {
+    ownText.innerHTML += "VoidMax, ";
+  }
+  if ((allQuery.docs[5].data().cards).includes(cutSrc)) {
+    ownText.innerHTML += "Zaveeya, ";
+  }
+  
+  console.log("own add");
+  ownText.innerHTML = ownText.innerHTML.substring(0, ownText.innerHTML.length - 2);
+  console.log("owners " + ownText.innerHTML);
+}
+
+
+//Checks if mission is complete
+async function checkMiss() {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  const userRef = db.collection('users');
+  const userQuery = await userRef
+        .where('name', '==', currentUser.username)
+        .get();
+  const doc = userQuery.docs[0];
+  const allQuery = await userRef.get();
+  let allCards = allQuery.docs[0].data().cards.concat(
+    allQuery.docs[1].data().cards, 
+    allQuery.docs[2].data().cards, 
+    allQuery.docs[3].data().cards,
+    allQuery.docs[4].data().cards, 
+    allQuery.docs[5].data().cards).sort();
+  let userCards = doc.data().cards;
+  let newTokens = doc.data().tokens;
+
+  // Get Mission cards
+  const missRef = db.collection('mission');
+  const missQuery = await missRef.get();
+  let missCards = missQuery.docs[0].data().cards;
+  let missNum = missQuery.docs[0].data().missNum;
+  console.log(missCards);
+  
+  // Check if userCards contains all missCards
+  let containsAll = missCards.every(card => userCards.includes(card));
+
+  // Returns if mission is not complete
+  if(!containsAll){
+    console.log("Not Complete");
+    alert("You have not completed the Mission.");
+    return;
+  }
+  // Adds token if mission complete
+  newTokens=newTokens+1;
+  console.log("Mission Complete");
+  alert("Mission Complete! +1 Token");
+  await doc.ref.update({
+    tokens: newTokens
+  });
+
+  // Gets new Mission
+  let cardDeck = missionSets.flat();
+  let newMission = randMission(cardDeck, allCards);
+  console.log(newMission);
+  missNum=missNum+1;
+
+  let missDoc = missQuery.docs[0];
+  await missDoc.ref.update({
+    cards: newMission,
+    missNum: missNum
+  });
+  location.reload();
+}
+
+function randMission(deck, all) {
+  let newMiss = [];
+  
+  while (newMiss.length < 6 && deck.length > 0) {
+    let randomIndex = Math.floor(Math.random() * deck.length);
+    console.log(deck[randomIndex]);
+    if(all.includes(deck[randomIndex])){
+      newMiss.push(deck[randomIndex]);
+      deck.splice(randomIndex, 1);
+    }
+  }
+
+  return newMiss;
 }
 

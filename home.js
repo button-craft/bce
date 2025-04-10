@@ -194,6 +194,20 @@ async function openPack(pack_Num) {
       }
     }
   }
+
+  //SPECIAL (April Fools Only) - Standard
+  /*
+  if (packNum==0){
+    for (let i = 0; i < packSize; i++) {
+      if (inPack < packSize && Math.floor(Math.random() * 2) + 1 == 1) {
+
+        let randCard = S4[Math.floor(Math.random() * (S4.length))];
+        pack.push(randCard + ".png");
+        inPack++;
+        console.log(randCard);
+      }
+    }
+  }*/
     
   //LEGENDARY
   for (let i = 0; i < packSize; i++) {

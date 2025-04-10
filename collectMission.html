@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Peach's Collection - BUTTON Cards</title>
+  <title>Mission - BUTTON Cards</title>
   <link rel="icon" type="image/png" href="BC_Icon.png">
   <link href="collectUser.css" rel="stylesheet" type="text/css" />
   <link href="header.css" rel="stylesheet" type="text/css" />
@@ -29,14 +29,14 @@
     <a href="clicker.html">Clicker</a>
     <a href="collectAll.html">All Cards</a>
     <a href="collectSets.html">Sets</a>
-    <a href="collectMission.html">Mission</a>
+    <a class="active" href="collectMission.html">Mission</a>
     <a href="collectTrade.html">Trading</a>
     <a href="collectCraft.html">Crafting</a>
     <a href="collectCompare.html">Compare</a>
     <a href="collectGem.html">DCGem</a>
     <a href="collectDC.html">DCMetro</a>
     <a href="collectJig.html">Jig</a>
-    <a class="active" href="collectPeach.html">Peach</a>
+    <a href="collectPeach.html">Peach</a>
     <a href="collectVoid.html">VoidMax</a>
     <a href="collectZav.html">Zaveeya</a>
   </div>
@@ -46,20 +46,21 @@
   <img class=large src="Pack.png" onClick="hide()"></img>
   <h3 class=owned></h3>
 
-  <!-- Card Collection List -->
-  <h2 class=collectionTitle>PeachRabbit's Collection!</h2>
-  <select name="sortSelect" class="sortSelect">
-    <option class=s1 value="num">Order</option>
-    <option class=s2 value="numRev">Reverse</option>
-    <option class=s3 value="rec">Recent</option>
-    <option class=s4 value="old">Oldest</option>
-    <option class=s5 value="rar">Rarity</option>
-  </select>
-  <button class=sortButton onClick="loadCards()">Sort</button>
-  <ul class=collectionList id="peach">
+  <h2 class=collectionTitle>Current Mission:</h2>
+
+  <h3>Be the first to own these 6 cards to get a pack token!</h3>
+  <ul class=collectionList id="mission">
     <li><img class=c0 src="Pack.png" onClick="enlarge('c0')"></img></li>
+    <li><img class=c1 src="Pack.png" onClick="enlarge('c1')"></img></li>
+    <li><img class=c2 src="Pack.png" onClick="enlarge('c2')"></img></li>
+    <li><img class=c3 src="Pack.png" onClick="enlarge('c3')"></img></li>
+    <li><img class=c4 src="Pack.png" onClick="enlarge('c4')"></img></li>
+    <li><img class=c5 src="Pack.png" onClick="enlarge('c5')"></img></li>
   </ul>
 
+  <br>
+  <button class=claim onClick="checkMiss()">Claim Mission</button>
+  
   <!-- Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>

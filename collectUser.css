@@ -129,6 +129,10 @@ h3 {
   display: none;
 }
 
+.owned{
+  display:none;
+}
+
 /* ----- Clicker Button ----- */
 .clicker{
   margin: auto;
@@ -143,5 +147,30 @@ h3 {
 .clicker:hover{
   border: darkblue 6px solid;
   background-color: blue;
+}
+
+/* ----- Card Hovering ----- */
+.collectionList li img, 
+.set li img, 
+.tradeList li img, 
+.yourList li img, 
+.resultList li img, 
+.myList li img, 
+.viewYourList li img, 
+.viewTheirList li img {
+  transition: transform 0.2s;
+}
+
+.collectionList li img:hover, 
+.set li img:hover, 
+.tradeList li img:hover, 
+.yourList li img:hover, 
+.resultList li img:hover, 
+.myList li img:hover, 
+.viewYourList li img:hover, 
+.viewTheirList li img:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+  z-index: 10;
 }
 
