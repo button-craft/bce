@@ -4,35 +4,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Clicker - BUTTON Cards</title>
+  <title>Retired Page - BCE</title>
   <link rel="icon" type="image/png" href="BC_Icon.png">
-  <link href="collectUser.css" rel="stylesheet" type="text/css" />
   <link href="header.css" rel="stylesheet" type="text/css" />
+  <link href="home.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body oncontextmenu="return false;">
-
+<body>
+  
   <!-- Header Section -->
   <div class="logoBack">
-    <a class="logoLink" href="home.html">
+    <a class="logoLink" href="collections.html">
       <img class="logo" src="BC_Logo.png" alt="Logo">
     </a>
     <div class="user-info">
-      <p id="username">User: Loading</p>
+      <p id="username">User: Unknown</p>
       <p id="token">Pack Tokens: -</p>
       <button class="logout-button" onclick="handleLogout()">LOGOUT</button>
     </div>
   </div>
   <div class=line></div>
   <div class="topnav">
-    <a href="home.html">Pack Store</a>
-    <a class="active" href="clicker.html">Clicker</a>
-    <a href="collectAll.html">All Cards</a>
     <a href="collectSets.html">Sets</a>
-    <a href="collectMission.html">Mission</a>
-    <a href="collectTrade.html">Trading</a>
-    <a href="collectCraft.html">Crafting</a>
-    <a href="collectCompare.html">Compare</a>
     <a href="collectGem.html">DCGem</a>
     <a href="collectDC.html">DCMetro</a>
     <a href="collectJig.html">Jig</a>
@@ -42,16 +35,14 @@
   </div>
   <div class=line></div>
 
-  
-  <!-- Clicker -->
-  <h2 class=collectionTitle>Click for a 0.1% chance of a Pack Token!</h2>
-  <button class=clicker onClick="clicked()">CLICK</button>
+  <!-- home -->
+  <h1 class="pageTitle">This is a retired page.</h1>
 
   <!-- Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
   <script src="header.js"></script>
-  <script src="collectUser.js"></script>
+  <script src="cardStoreInfo.js"></script>
+  <script src="home.js"></script>
 </body>
-
 </html>
