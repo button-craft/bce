@@ -1,120 +1,171 @@
 //USER'S COLLECTION FUNCTIONS
 
+//Loads the selected set when the View button is clicked
+function loadSelectedSet() {
+  let allCards;
+  let compareCards;
+  let filledCards;
+  let listName = document.querySelector(".players");
+  let setSelector = document.querySelector(".setSelector");
+  const selectedSetValue = setSelector.value;
+  
+  // First, hide all sets
+  for (let setList = 1; setList < allSets.length; setList++) {
+    let setBox = document.querySelector(".s" + setList);
+    if (setBox) {
+      setBox.style.display = "none";
+    }
+  }
+  
+  // If "all" is selected, show all sets, otherwise just show the selected set
+  if (selectedSetValue === "all") {
+    // Load all sets as before
+    loadCards();
+  } else {
+    // Convert the selected value to a number and load just that set
+    const setNumber = parseInt(selectedSetValue);
+    if (setNumber >= 1 && setNumber < allSets.length) {
+      // Get user-specific cards for comparison
+      const userRef = db.collection('users');
+      
+      async function loadSingleSet() {
+        if (listName.value == "all") {
+          const allQuery = await userRef.get();
+          compareCards = allQuery.docs[0].data().cards.concat(
+            allQuery.docs[1].data().cards, 
+            allQuery.docs[2].data().cards, 
+            allQuery.docs[3].data().cards,
+            allQuery.docs[4].data().cards, 
+            allQuery.docs[5].data().cards).sort();
+          filledCards = compareCards;
+        } else {
+          const userQuery = await userRef
+            .where('name', '==', listName.value)
+            .get();
+          
+          const doc = userQuery.docs[0];
+          compareCards = doc.data().cards.sort();
+          
+          const allQuery = await userRef.get();
+          filledCards = allQuery.docs[0].data().cards.concat(
+            allQuery.docs[1].data().cards, 
+            allQuery.docs[2].data().cards, 
+            allQuery.docs[3].data().cards,
+            allQuery.docs[4].data().cards, 
+            allQuery.docs[5].data().cards).sort();
+        }
+
+        // Display only the selected set
+        let setBox = document.querySelector(".s" + setNumber);
+        setBox.style.display = "flex";
+        let setCards = allSets[setNumber];
+        
+        for (let i = 0; i < setCards.length; i++) {
+          let cardResult = document.querySelector(".s" + setNumber + "c" + i);
+          cardResult.style.border = "none";
+          cardResult.style.opacity = "1";
+
+          if (compareCards.includes(setCards[i])) {
+            cardResult.src = "img/" + setCards[i] + ".png";
+            cardResult.style.width = "110px";
+          }
+          else {
+            if (filledCards.includes(setCards[i])) {
+              cardResult.src = "img/" + setCards[i] + ".png";
+              cardResult.style.border = "2px lightcyan solid";
+              cardResult.style.opacity = "0.6";
+            }
+            else {
+              cardResult.src = "Back.png";
+            }
+            cardResult.style.width = "110px";
+          }
+          if (setCards[i].includes("-A")) {
+            cardResult.style.border = "2px red solid";
+          }
+          if (setCards[i].includes("-P")) {
+            cardResult.style.border = "2px blue solid";
+          }
+        }
+      }
+      
+      loadSingleSet();
+    }
+  }
+}
+
+// Modify the loadCards function to not load automatically on page load
+// Instead, we'll call this when someone selects "All" or clicks the button initially
 async function loadCards() {
+  let compareCards;
+  let filledCards;
+  let listName = document.querySelector(".players");
   const userRef = db.collection('users');
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  let prevCard = "";
-  let userCards = [];
 
-  let colList = document.querySelector('.collectionList');
-  let userList = colList.id;
-  if(userList=="all"){
-    awardChecker();
-  }
-  if(userList!=="all" && userList!=="sets" && userList!=="mission"){
-    console.log(userList);
+  if (listName.value == "all") {
+    const allQuery = await userRef.get();
+    compareCards = allQuery.docs[0].data().cards.concat(
+      allQuery.docs[1].data().cards, 
+      allQuery.docs[2].data().cards, 
+      allQuery.docs[3].data().cards,
+      allQuery.docs[4].data().cards, 
+      allQuery.docs[5].data().cards).sort();
+    filledCards = compareCards;
+  } else {
     const userQuery = await userRef
-          .where('name', '==', userList)
-          .get();
+      .where('name', '==', listName.value)
+      .get();
+    
     const doc = userQuery.docs[0];
-    userCards = doc.data().cards;
+    compareCards = doc.data().cards.sort();
     
-    let sortType = document.querySelector(".sortSelect");
-    if(sortType.value=="num"){
-      userCards=userCards.sort();
-    } else if(sortType.value=="numRev"){
-      userCards=userCards.sort();
-      userCards=userCards.reverse();
-    } else if(sortType.value=="rec"){
-      userCards=userCards.reverse();
-    } else if(sortType.value=="rar"){
-      userCards=sortByRarity(userCards.sort());
-    } else if(sortType.value!=="old"){
-      userCards=userCards.sort();
-    }
-    
-  } else if(userList=="mission"){
-    const missRef = db.collection('mission');
-    const missQuery = await missRef.get();
-    userCards = missQuery.docs[0].data().cards;
-    console.log(userCards);
-  } else{
-    const userQuery = await userRef.get();
-    userCards = userQuery.docs[0].data().cards.concat(
-      userQuery.docs[1].data().cards, 
-      userQuery.docs[2].data().cards, 
-      userQuery.docs[3].data().cards,
-      userQuery.docs[4].data().cards, 
-      userQuery.docs[5].data().cards).sort();
+    const allQuery = await userRef.get();
+    filledCards = allQuery.docs[0].data().cards.concat(
+      allQuery.docs[1].data().cards, 
+      allQuery.docs[2].data().cards, 
+      allQuery.docs[3].data().cards,
+      allQuery.docs[4].data().cards, 
+      allQuery.docs[5].data().cards).sort();
   }
-  
-  if(userList=="sets"){
-    colList.style.display = "none";
-    loadSets(userCards);
-    return;
-  }
-  console.log(userCards);
-  let storeCards = userCards.slice();
-  
-  // Clear existing cards
-  colList.innerHTML = '';
-  
-  // Dynamically generate card elements for all cards
-  for (let i = 0; i < userCards.length; i++) {
-    // Create new list item and image for each card
-    const listItem = document.createElement('li');
-    const image = document.createElement('img');
-    
-    // Set image properties
-    image.className = `c${i}`;
-    image.src = "img/" + userCards[i] + ".png";
-    image.style.width = "110px";
-    image.style.border = "none";
-    image.setAttribute('onClick', `enlarge('c${i}')`);
-    
-    // Check for duplicate cards
-    if (userCards[i] == prevCard) {
-      let prevCardResult = document.querySelector(`.c${i - 1}`);
-      if (prevCardResult) {
-        prevCardResult.style.border = "2px yellow solid";
+
+  for (let setList = 1; setList < allSets.length; setList++) {
+    let setBox = document.querySelector(".s" + setList);
+    setBox.style.display = "flex";
+    let setCards = allSets[setList];
+
+    for (let i = 0; i < setCards.length; i++) {
+      let cardResult = document.querySelector(".s" + setList + "c" + i);
+      cardResult.style.border = "none";
+      cardResult.style.opacity = "1";
+
+      if (compareCards.includes(setCards[i])) {
+        cardResult.src = "img/" + setCards[i] + ".png";
+        cardResult.style.width = "110px";
       }
-      image.style.border = "2px yellow solid";
-    } else {
-      let curStr = storeCards.splice(i, 1);
-      if (storeCards.includes(curStr[0])) {
-        console.log(curStr[0]);
-        image.style.border = "2px yellow solid";
+      else {
+        if (filledCards.includes(setCards[i])) {
+          cardResult.src = "img/" + setCards[i] + ".png";
+          cardResult.style.border = "2px lightcyan solid";
+          cardResult.style.opacity = "0.6";
+        }
+        else {
+          cardResult.src = "Back.png";
+        }
+        cardResult.style.width = "110px";
       }
-      storeCards.splice(i, 0, curStr[0]);
+      if (setCards[i].includes("-A")) {
+        cardResult.style.border = "2px red solid";
+      }
+      if (setCards[i].includes("-P")) {
+        cardResult.style.border = "2px blue solid";
+      }
     }
-    
-    // Add image to list item
-    listItem.appendChild(image);
-    
-    // Add list item to collection list
-    colList.appendChild(listItem);
-    
-    prevCard = userCards[i];
   }
-  
-  // Update or create the card count display
-  let countDisplay = document.getElementById('cardCount');
-  if (!countDisplay) {
-    countDisplay = document.createElement('div');
-    countDisplay.id = 'cardCount';
-    countDisplay.style.textAlign = 'center';
-    countDisplay.style.color = 'darkblue';
-    countDisplay.style.marginTop = '10px';
-    countDisplay.style.fontWeight = 'bold';
-    
-    // Insert count after the collection list
-    colList.parentNode.insertBefore(countDisplay, colList.nextSibling);
-  }
-  
-  // Update the count text
-  countDisplay.textContent = `Total Cards: ${userCards.length}`;
 }
-loadCards();
+
+// Remove the automatic loadCards() call that was here previously
+// Instead, we'll call loadSelectedSet() when needed
 
 /*
 //Loads in Cards to List from User's Collection
