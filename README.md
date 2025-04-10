@@ -1,5 +1,2 @@
-# ButtonCards
-Coming Soon
-https://buttoncard.github.io/ButtonCards/index.html
-DC e
-Gem r
+# BCE
+BCE 2.0 out now. i hate pushing local files.
