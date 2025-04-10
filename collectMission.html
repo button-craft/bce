@@ -4,35 +4,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Mission - BUTTON Cards</title>
+  <title>Retired Page - BCE</title>
   <link rel="icon" type="image/png" href="BC_Icon.png">
-  <link href="collectUser.css" rel="stylesheet" type="text/css" />
   <link href="header.css" rel="stylesheet" type="text/css" />
+  <link href="home.css" rel="stylesheet" type="text/css" />
 </head>
 
-<body oncontextmenu="return false;">
-
+<body>
+  
   <!-- Header Section -->
   <div class="logoBack">
-    <a class="logoLink" href="home.html">
+    <a class="logoLink" href="collections.html">
       <img class="logo" src="BC_Logo.png" alt="Logo">
     </a>
     <div class="user-info">
-      <p id="username">User: Loading</p>
+      <p id="username">User: Unknown</p>
       <p id="token">Pack Tokens: -</p>
       <button class="logout-button" onclick="handleLogout()">LOGOUT</button>
     </div>
   </div>
   <div class=line></div>
   <div class="topnav">
-    <a href="home.html">Pack Store</a>
-    <a href="clicker.html">Clicker</a>
-    <a href="collectAll.html">All Cards</a>
     <a href="collectSets.html">Sets</a>
-    <a class="active" href="collectMission.html">Mission</a>
-    <a href="collectTrade.html">Trading</a>
-    <a href="collectCraft.html">Crafting</a>
-    <a href="collectCompare.html">Compare</a>
     <a href="collectGem.html">DCGem</a>
     <a href="collectDC.html">DCMetro</a>
     <a href="collectJig.html">Jig</a>
@@ -42,31 +35,14 @@
   </div>
   <div class=line></div>
 
-  <!-- Enlarged Card -->
-  <img class=large src="Pack.png" onClick="hide()"></img>
-  <h3 class=owned></h3>
+  <!-- home -->
+  <h1 class="pageTitle">This is a retired page.</h1>
 
-  <h2 class=collectionTitle>Current Mission:</h2>
-
-  <h3>Be the first to own these 6 cards to get a pack token!</h3>
-  <ul class=collectionList id="mission">
-    <li><img class=c0 src="Pack.png" onClick="enlarge('c0')"></img></li>
-    <li><img class=c1 src="Pack.png" onClick="enlarge('c1')"></img></li>
-    <li><img class=c2 src="Pack.png" onClick="enlarge('c2')"></img></li>
-    <li><img class=c3 src="Pack.png" onClick="enlarge('c3')"></img></li>
-    <li><img class=c4 src="Pack.png" onClick="enlarge('c4')"></img></li>
-    <li><img class=c5 src="Pack.png" onClick="enlarge('c5')"></img></li>
-  </ul>
-
-  <br>
-  <button class=claim onClick="checkMiss()">Claim Mission</button>
-  
   <!-- Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
   <script src="header.js"></script>
   <script src="cardStoreInfo.js"></script>
-  <script src="collectUser.js"></script>
+  <script src="home.js"></script>
 </body>
-
 </html>
